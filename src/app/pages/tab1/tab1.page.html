@@ -7,11 +7,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Administrador</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-button (click)="verUsuarios()">
+    <ion-icon name="person"></ion-icon>
+    Mostrar usuarios
+</ion-button>
 
-  <app-explore-container name="Administrador"></app-explore-container>
 </ion-content>
