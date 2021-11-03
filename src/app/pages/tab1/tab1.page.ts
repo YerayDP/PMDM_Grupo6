@@ -7,15 +7,19 @@ import { RestService } from 'src/app/services/rest.service';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  usuarios: any;
+  usuarios: any=[];
 
-  constructor(private restService: RestService) {  }
+  constructor(private restService: RestService) { 
 
+   }
+
+  
   verUsuarios() {
     this.restService.obtenerUsuarios(this.restService.token)
+    
     .then(data => {
         this.usuarios = data;
-        console.log(this.usuarios);
+        
     });
   }
 
