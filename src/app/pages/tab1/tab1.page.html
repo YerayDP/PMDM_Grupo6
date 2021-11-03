@@ -1,20 +1,17 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title> Administrador </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content>
-    <ion-list>
-        <ion-item *ngFor="let usuario of usuarios.data">
-          <ion-label>
-            <h3>{{ usuario.firstname }}</h3>
-            <p>{{ usuario.email }}</p>
-          </ion-label>
-        </ion-item>
-    </ion-list>
-    <ion-button (click)="verUsuarios()">
-      <ion-icon name="person"></ion-icon>
-      Mostrar usuarios
-  </ion-button>
-  </ion-content>
+  <ion-toolbar>
+    <ion-title> Administrador </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let usuario of usuarios.data" >
+      <ion-label>
+        <h3>{{ usuario.firstname }}</h3>
+        <p>{{ usuario.email }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

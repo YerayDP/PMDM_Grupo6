@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RestService } from 'src/app/services/rest.service';
 
 @Component({
@@ -6,15 +6,15 @@ import { RestService } from 'src/app/services/rest.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit{
   usuarios: any=[];
 
   constructor(private restService: RestService) { 
-
+    
    }
 
   
-  verUsuarios() {
+  ngOnInit() {
     this.restService.obtenerUsuarios(this.restService.token)
     
     .then(data => {
@@ -22,5 +22,9 @@ export class Tab1Page {
         
     });
   }
-
+  
 }
+    
+  
+
+
