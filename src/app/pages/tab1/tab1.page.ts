@@ -8,11 +8,13 @@ import { RestService } from 'src/app/services/rest.service';
 })
 export class Tab1Page {
   usuarios: any;
+  mail:string
+  pass:string
 
   constructor(private restService: RestService) {
     // Llamamos al login que tiene la Promesa (objeto Promise())
     // data: se llama la api que ha puesto Raúl para este
-    this.restService.login().then(data => {// devuelve a lo que ha llamado esta función
+    this.restService.login(this.mail,this.pass).then(data => {// devuelve a lo que ha llamado esta función
       console.log(data);// para mostrar en consola los datos recibidos
     });
   }

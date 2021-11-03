@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RestService } from '../../services/rest.service';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginPage implements OnInit {
 
-  constructor() { }
+    mail: any;
+    pass: any;
+
+  constructor(private RestService: RestService) {  }
 
   ngOnInit() {
-  }
-
+    
+ }
+ log() {
+  this.RestService.login(this.mail, this.pass)
+}
+guardarDatos(){
+  console.log(this.mail);
+}
+ 
 }

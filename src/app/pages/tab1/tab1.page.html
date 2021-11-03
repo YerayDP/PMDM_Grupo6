@@ -1,15 +1,16 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Administrador
-    </ion-title>
+    <ion-title> Administrador </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-<ion-button (click)="verUsuarios()">
-    <ion-icon name="person"></ion-icon>
-    Mostrar usuarios
-</ion-button>
-
+<ion-content>
+  <ion-list>
+      <ion-item *ngFor="let usuario of usuarios | async">
+        <ion-label>
+          <h3>{{ usuario.name }}</h3>
+          <p>{{ usuario.email }}</p>
+        </ion-label>
+      </ion-item>
+  </ion-list>
 </ion-content>

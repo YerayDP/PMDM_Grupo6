@@ -11,14 +11,14 @@ export class RestService {
 
   constructor(private http: HttpClient) { }
 
-  login() {// hacer opcionalmente para email: string y password: string
+  login(mail: any,pass: any) {// hacer opcionalmente para email: string y password: string
     // para que nos devuelva una promesa, sintáxis para llamar a apirest
     return new Promise(resolve => {
         // <any>: para crearnos una interface, por ejemplo: <Usuario>
         this.http.post<any>(this.api + '/login',
         {
-          email: 'raul@raul.com',
-          password: '123456' 
+          email: mail,
+          password: pass 
         }).subscribe(data => {// devuelve los datos a quien llame a esta función
           this.token = data;// para guardar solamente el token
           console.log(data);
