@@ -5,18 +5,6 @@
 </ion-header>
 
 <ion-content>
-<<<<<<< Updated upstream
-  <ion-list>
-    <ion-item *ngFor="let usuario of usuarios.data" >
-      <ion-label>
-        <h3>{{ usuario.firstname }}</h3>
-        <p>{{ usuario.email }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
-
-</ion-content>
-=======
   <ion-list #lista>
     <ion-item-sliding *ngFor="let usuario of usuarios.data">
       <ion-item>
@@ -50,4 +38,3 @@
     Mostrar usuarios
   </ion-button>
 </ion-content>
->>>>>>> Stashed changes

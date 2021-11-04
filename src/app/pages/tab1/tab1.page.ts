@@ -1,9 +1,6 @@
-<<<<<<< Updated upstream
 import { Component, OnInit } from '@angular/core';
-=======
-import { Component, ViewChild } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { IonList } from '@ionic/angular';
->>>>>>> Stashed changes
 import { RestService } from 'src/app/services/rest.service';
 
 @Component({
@@ -11,12 +8,7 @@ import { RestService } from 'src/app/services/rest.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-<<<<<<< Updated upstream
 export class Tab1Page implements OnInit{
-=======
-export class Tab1Page {
-  @ViewChild('lista', {static: true}) lista: IonList;
->>>>>>> Stashed changes
   usuarios: any=[];
 
   constructor(private restService: RestService) { 
@@ -32,9 +24,15 @@ export class Tab1Page {
         
     });
   }
-<<<<<<< Updated upstream
   
-=======
+  verUsuarios() {
+    this.restService.obtenerUsuarios(this.restService.token)
+
+    .then(data => {
+        this.usuarios = data;
+
+    });
+  }
 
   activar() {
     console.log(this.restService.token);
@@ -48,7 +46,6 @@ export class Tab1Page {
     //this.lista.closeSlidingItems();
    }
 
->>>>>>> Stashed changes
 }
     
   
