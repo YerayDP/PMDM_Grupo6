@@ -6,12 +6,14 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let usuario of usuarios.data" >
+  
+    <ion-item *ngFor="let usuario of usuarios.data " >
       <ion-label>
         <h3>{{ usuario.firstname }}</h3>
         <p>{{ usuario.email }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+ 
 
 </ion-content>

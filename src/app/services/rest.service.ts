@@ -18,25 +18,29 @@ export class RestService {
         {
           email: mail,
           password: pass 
+          
         }).subscribe(data => {// raul@raul.com devuelve los datos a quien llame a esta función
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
+  
           resolve(data);
           
         });
     });
   }
 
-  obtenerUsuarios(token) {
+  async obtenerUsuarios(token) {
 
     return new Promise(resolve => {
+ 
       this.http.get(this.api + '/users', {
         // para crearnos la cabecera
         
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
       }).subscribe(data => {
+        this.token = data;
         resolve(data);
-        
+        console.log(data);
       }, err => {
         console.log('Error, '+err);
       });
