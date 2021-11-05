@@ -35,12 +35,49 @@ export class RestService {
  
       this.http.get(this.api + '/users', {
         // para crearnos la cabecera
-        
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
       }).subscribe(data => {
         this.token = data;
         resolve(data);
         console.log(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  activar(token)
+  {
+    return new Promise(resolve => {
+      this.http.post(this.api + '/activate',
+      {
+        'user_id':'6'
+      }, 
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  desactivar(token)
+  {
+    return new Promise(resolve => {
+      this.http.post(this.api + '/deactivate',
+      {
+        'user_id':'6'
+      }, 
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
       }, err => {
         console.log('Error, '+err);
       });
