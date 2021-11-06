@@ -13,6 +13,7 @@ export class Tab1Page {
   loading: any;
   usuarios: any=[];
 
+
   
   constructor(private restService: RestService, private loadingCtrl: LoadingController) { 
     
@@ -26,7 +27,7 @@ export class Tab1Page {
   }
   verUsuarios() {
     this.restService.obtenerUsuarios(this.restService.token)
-    
+
     .then(data => {
         this.usuarios = data;
         
@@ -48,14 +49,19 @@ export class Tab1Page {
   
   activar() {
     console.log(this.restService.token);
+
     this.restService.activar(this.restService.token)
     //this.lista.closeSlidingItems();
+    this.verUsuarios()
+
    }
 
    desactivar() {
     console.log(this.restService.token);
     this.restService.desactivar(this.restService.token)
     //this.lista.closeSlidingItems();
+    this.verUsuarios()
+
    }
 
 }

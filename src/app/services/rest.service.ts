@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment.prod';
 export class RestService {
   api = environment.apiUrl;
   token: any;//any: para especificar una variable de cualquier tipo
+  token2: any;
   constructor(private http: HttpClient) { }
 
   login(mail: any,pass: any) {// hacer opcionalmente para email: string y password: string
@@ -37,7 +38,7 @@ export class RestService {
         // para crearnos la cabecera
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
       }).subscribe(data => {
-        this.token = data;
+        this.token2 = data;
         resolve(data);
         console.log(data);
       }, err => {
@@ -48,6 +49,7 @@ export class RestService {
 
   activar(token)
   {
+    console.log(token)
     return new Promise(resolve => {
       this.http.post(this.api + '/activate',
       {
