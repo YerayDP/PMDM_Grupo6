@@ -48,22 +48,21 @@ export class Tab1Page {
     }, 500 );
  }   
   
-  activar() {
+  activar(id:any) {
     console.log(this.restService.token);
-
-    this.restService.activar(this.restService.token)
+    this.restService.activar(this.restService.token,id)
     this.lista.closeSlidingItems();
    }
 
-   desactivar() {
+   desactivar(id:any) {
     console.log(this.restService.token);
-    this.restService.desactivar(this.restService.token)
+    this.restService.desactivar(this.restService.token,id)
     this.lista.closeSlidingItems();
    }
 
-   eliminar(user_id: any) {
+   eliminar() {
     console.log(this.restService.token);
-    this.restService.eliminar(this.restService.token,user_id)
+    this.restService.eliminar(this.restService.token)
     this.lista.closeSlidingItems();
    }
 

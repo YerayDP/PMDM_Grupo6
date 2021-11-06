@@ -70,14 +70,14 @@ export class RestService {
     });
   }
 
-  activar(token)
+  activar(token,id:any)
   {
     console.log(token)
     return new Promise(resolve => {
       this.http.post(this.api + '/activate',
       {
         //pasar datos por parametros
-        'user_id':'6'
+        'user_id':id
       }, 
       {
         // para crearnos la cabecera
@@ -91,12 +91,12 @@ export class RestService {
     });
   }
 
-  desactivar(token)
+  desactivar(token,id:any)
   {
     return new Promise(resolve => {
       this.http.post(this.api + '/deactivate',
       {
-        'user_id':'6'
+        'user_id':id
       }, 
       {
         // para crearnos la cabecera
@@ -110,10 +110,10 @@ export class RestService {
     });
   }
 
-  eliminar(token, user_id: any)
+  eliminar(token)
   {
     return new Promise(resolve => {
-      this.http.post(this.api + '/deactivate/'+user_id ,
+      this.http.post(this.api + '/deleted/'+'6' ,
       {
         // para crearnos la cabecera
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
