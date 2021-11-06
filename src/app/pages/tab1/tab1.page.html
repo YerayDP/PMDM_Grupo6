@@ -13,18 +13,19 @@
           <p>{{ usuario.email }}</p>
           <p>{{ usuario.id }}</p>
           <p>{{ usuario.actived }}</p>
+          <p>{{ usuario.deleted }}</p>
         </ion-label>
       </ion-item>
       <ion-item-options color="primary" side="start">
         <ion-item-option (click)="activar()">
-          <ion-button>Activar</ion-button>
+          <ion-button href="/tabs/tab1">Activar</ion-button>
         </ion-item-option>
         <ion-item-option color="primary" (click)="desactivar()">
           <ion-button>Desactivar</ion-button>
         </ion-item-option>
       </ion-item-options>
       <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="borrar(usuario)">
+        <ion-item-option color="danger" (click)="eliminar(usuario.id)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
         <ion-item-option color="primary" (click)="compartir(usuario)">
