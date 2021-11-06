@@ -8,31 +8,34 @@
 </ion-header>
 
 <ion-content>
-  <form>
-    <ion-item lines="full">
-      <ion-label position="floating">First name</ion-label>
-      <ion-input type="text" required></ion-input>
+  <form #f="ngForm" (ngSubmit)="regris()">
+  <ion-item>
+      <ion-label>Nombre:</ion-label>
+      <ion-input type="text" [(ngModel)]="firstname" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Last name</ion-label>
-      <ion-input type="text" required></ion-input>
+    <ion-item>
+      <ion-label>Apellido:</ion-label>
+      <ion-input type="text" [(ngModel)]="secondname" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" required></ion-input>
+    <ion-item>
+      <ion-label>Email:</ion-label>
+      <ion-input type="text" [(ngModel)]="mail" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" required></ion-input>
+    <ion-item>
+      <ion-label>Contraseña:</ion-label>
+      <ion-input type="password" [(ngModel)]="pass" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
-
-    <ion-row>
-      <ion-col>
-        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
-      </ion-col>
-    </ion-row>
+    <ion-item>
+      <ion-label>Confirmar contraseña:</ion-label>
+      <ion-input type="password" [(ngModel)]="c_password" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Compañia:</ion-label>
+      <ion-input type="text" [(ngModel)]="company_id" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    
+    <p class="ion-text-center">
+      <ion-button type="submit" [routerLink]="['/login']" >Guardar</ion-button>
+    </p>  
   </form>
 </ion-content>

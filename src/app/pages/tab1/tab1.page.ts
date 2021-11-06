@@ -10,6 +10,7 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  @ViewChild('lista', {static: true}) lista: IonList;
   loading: any;
   usuarios: any=[];
 
@@ -43,19 +44,19 @@ export class Tab1Page {
     setTimeout(() => {  
       loading.dismiss();  
       this.verUsuarios()
-    }, 500 );  
+    }, 500 );
  }   
   
   activar() {
     console.log(this.restService.token);
     this.restService.activar(this.restService.token)
-    //this.lista.closeSlidingItems();
+    this.lista.closeSlidingItems();
    }
 
    desactivar() {
     console.log(this.restService.token);
     this.restService.desactivar(this.restService.token)
-    //this.lista.closeSlidingItems();
+    this.lista.closeSlidingItems();
    }
 
 }
