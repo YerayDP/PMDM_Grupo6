@@ -107,4 +107,20 @@ export class RestService {
       });
     });
   }
+
+  eliminar(token, user_id: any)
+  {
+    return new Promise(resolve => {
+      this.http.post(this.api + '/deactivate/'+user_id ,
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
 }

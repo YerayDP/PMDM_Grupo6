@@ -59,6 +59,12 @@ export class Tab1Page {
     this.lista.closeSlidingItems();
    }
 
+   eliminar(user_id: any) {
+    console.log(this.restService.token);
+    this.restService.eliminar(this.restService.token,user_id)
+    this.lista.closeSlidingItems();
+   }
+
 }
     
   
