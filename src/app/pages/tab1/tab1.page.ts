@@ -21,7 +21,7 @@ export class Tab1Page {
     
    }
 
-   ngOnInit(){
+  ngOnInit(){
     this.showLoading();
     
    
