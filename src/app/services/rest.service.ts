@@ -110,10 +110,13 @@ export class RestService {
     });
   }
 
-  eliminar(token)
+  eliminar(token,id:any)
   {
     return new Promise(resolve => {
-      this.http.post(this.api + '/deleted/'+'6' ,
+      this.http.post(this.api + '/deleted/'+id,
+      {
+        'user_id':id
+      },
       {
         // para crearnos la cabecera
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
@@ -124,5 +127,43 @@ export class RestService {
         console.log('Error, '+err);
       });
     });
+  }
+
+  editar(token, id:any, firstname:any, secondname:any, email:any, password:any, company_id:any)
+  {
+    return new Promise(resolve => {
+      this.http.post(this.api + '/updated/'+id,
+      {
+        'user_id':id,
+        'firstname':firstname,
+        'secondname':secondname,
+        'email':email,
+        'password':password,
+        'company_id':company_id
+      }, 
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  companies()
+  {
+    return new Promise(resolve => {
+      this.http.get(this.api + '/companies/',
+      ).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+      
   }
 }

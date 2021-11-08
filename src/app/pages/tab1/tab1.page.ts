@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ViewChild } from '@angular/core';
 import { IonList } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
@@ -16,7 +17,7 @@ export class Tab1Page {
 
 
   
-  constructor(private restService: RestService, private loadingCtrl: LoadingController) { 
+  constructor(private restService: RestService, private loadingCtrl: LoadingController, private route: Router) { 
     
     
    }
@@ -60,14 +61,15 @@ export class Tab1Page {
     this.lista.closeSlidingItems();
    }
 
-   eliminar() {
+   eliminar(id:any) {
     console.log(this.restService.token);
-    this.restService.eliminar(this.restService.token)
+    this.restService.eliminar(this.restService.token,id)
     this.lista.closeSlidingItems();
    }
 
+   editar()
+   {
+    this.route.navigate(['/edit']);
+   }
+
 }
-    
-  
-
-
