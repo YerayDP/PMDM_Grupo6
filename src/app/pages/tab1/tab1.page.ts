@@ -53,18 +53,21 @@ export class Tab1Page {
     console.log(this.restService.token);
     this.restService.activar(this.restService.token,id)
     this.lista.closeSlidingItems();
+    this.showLoading();
    }
 
    desactivar(id:any) {
     console.log(this.restService.token);
     this.restService.desactivar(this.restService.token,id)
     this.lista.closeSlidingItems();
+    this.showLoading();
    }
 
    eliminar(id:any) {
     console.log(this.restService.token);
     this.restService.eliminar(this.restService.token,id)
     this.lista.closeSlidingItems();
+    this.showLoading();
    }
 
    editar()
