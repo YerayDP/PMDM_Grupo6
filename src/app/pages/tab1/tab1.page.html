@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+<div *ngIf="myService.currentUser.type_id">
   <ion-list #lista>
     <ion-item-sliding *ngFor="let usuario of usuarios.data">
       <ion-item>
@@ -34,5 +35,5 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-  
+</div>
 </ion-content>
