@@ -9,6 +9,7 @@ export class RestService {
   api = environment.apiUrl;
   token: any;//any: para especificar una variable de cualquier tipo
   token2: any;
+  userLogged: any;
   constructor(private http: HttpClient) { }
 
   login(mail: any,pass: any) {// hacer opcionalmente para email: string y password: string
@@ -21,8 +22,10 @@ export class RestService {
           password: pass 
           
         }).subscribe(data => {// raul@raul.com devuelve los datos a quien llame a esta función
+          this.userLogged = data.data.type;
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
+          
   
           resolve(data);
           
@@ -114,9 +117,7 @@ export class RestService {
   {
     return new Promise(resolve => {
       this.http.post(this.api + '/deleted/'+id,
-      {
-        'user_id':id
-      },
+    
       {
         // para crearnos la cabecera
         headers: new HttpHeaders().set('Authorization','Bearer '+token)

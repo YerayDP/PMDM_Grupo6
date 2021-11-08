@@ -4,6 +4,7 @@ import { ViewChild } from '@angular/core';
 import { IonList } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { LoadingController } from '@ionic/angular';  
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-tab1',
@@ -28,13 +29,18 @@ export class Tab1Page {
    
   }
   verUsuarios() {
-    this.restService.obtenerUsuarios(this.restService.token)
 
-    .then(data => {
-        this.usuarios = data;
-        
-    });
+    if (this.restService.userLogged=="a") {
    
+      this.restService.obtenerUsuarios(this.restService.token)
+  
+      .then(data => {
+          this.usuarios = data;
+          
+      });
+    }else{
+      console.log("Usuario")
+    }
 
   }
 
@@ -64,7 +70,7 @@ export class Tab1Page {
    }
 
    eliminar(id:any) {
-    console.log(this.restService.token);
+    console.log(id);
     this.restService.eliminar(this.restService.token,id)
     this.lista.closeSlidingItems();
     this.showLoading();
