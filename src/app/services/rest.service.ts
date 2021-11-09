@@ -10,6 +10,8 @@ export class RestService {
   token: any;//any: para especificar una variable de cualquier tipo
   token2: any;
   userLogged: any;
+  checkActived: any;
+  checkConfirmed: any;
   constructor(private http: HttpClient) { }
 
   login(mail: any,pass: any) {// hacer opcionalmente para email: string y password: string
@@ -23,11 +25,12 @@ export class RestService {
           
         }).subscribe(data => {// raul@raul.com devuelve los datos a quien llame a esta función
           this.userLogged = data.data.type;
+          this.checkActived = data.data.actived;
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
           
   
-          resolve(data);
+          resolve(this.token);
           
         });
     });

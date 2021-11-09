@@ -18,7 +18,7 @@
       <ion-input type="password" [(ngModel)]="pass" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
     <p class="ion-text-center">
-      <ion-button type="submit" [routerLink]="['/tabs/tab1']" >Guardar</ion-button>
+      <ion-button type="submit" (click)="check()" >Guardar</ion-button>
     </p>  
   </form>
 </ion-content>

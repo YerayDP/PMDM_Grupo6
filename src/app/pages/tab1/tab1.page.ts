@@ -29,7 +29,7 @@ export class Tab1Page {
    
   }
   verUsuarios() {
-
+  
     if (this.restService.userLogged=="a") {
    
       this.restService.obtenerUsuarios(this.restService.token)
