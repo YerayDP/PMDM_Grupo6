@@ -29,10 +29,14 @@
       <ion-label>Confirmar contraseña:</ion-label>
       <ion-input type="password" [(ngModel)]="c_password" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
+
     <ion-item>
-      <ion-label>Compañia:</ion-label>
-      <ion-input type="text" [(ngModel)]="company_id" [ngModelOptions]="{standalone: true}"></ion-input>
+      <ion-label>Compañia</ion-label>
+      <ion-select [(ngModel)]="company_id" [ngModelOptions]="{standalone: true}">
+          <ion-select-option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</ion-select-option>
+      </ion-select>
     </ion-item>
+
     
     <p class="ion-text-center">
       <ion-button type="submit" [routerLink]="['/login']" >Guardar</ion-button>
