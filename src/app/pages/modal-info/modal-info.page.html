@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Editar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<form #f="ngForm" (ngSubmit)="edit()">
+  <ion-item>
+      <ion-label>Nombre:</ion-label>
+      <ion-input type="text" [(ngModel)]="firstname" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Apellido:</ion-label>
+      <ion-input type="text" [(ngModel)]="secondname" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Email:</ion-label>
+      <ion-input type="text" [(ngModel)]="mail" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Contraseña:</ion-label>
+      <ion-input type="password" [(ngModel)]="pass" [ngModelOptions]="{standalone: true}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Compañia</ion-label>
+      <ion-select [(ngModel)]="company_id" [ngModelOptions]="{standalone: true}">
+          <ion-select-option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </form>
+
+<ion-button color="primary" expand="full" (click)="salirSinArgumentos()">Atras</ion-button>
+
+<ion-button color="secondary" expand="full" (click)="salirConArgumentos()">Guardar</ion-button>
+
+</ion-content>

@@ -10,10 +10,8 @@
     <ion-item-sliding *ngFor="let usuario of usuarios.data">
       <ion-item *ngIf="usuario.email_confirmed=='1'">
         <ion-label>
-          <h3>{{ usuario.firstname }}</h3>
+          <h3>{{ usuario.firstname }} {{ usuario.secondname }}</h3>
           <p>{{ usuario.email }}</p>
-          <p>{{ usuario.id }}</p>
-          <p>{{ usuario.actived }}</p>
         </ion-label>
       </ion-item>
       <ion-item-options color="primary" side="start">
@@ -28,7 +26,7 @@
         <ion-item-option color="danger" (click)="eliminar(usuario.id)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="primary" (click)="editar()">
+        <ion-item-option color="primary" (click)="abrirmodal(usuario)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>
