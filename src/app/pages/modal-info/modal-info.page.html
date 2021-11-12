@@ -1,14 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Register</ion-title>
+    <ion-title>Editar</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form #f="ngForm" (ngSubmit)="regris()">
+
+<form #f="ngForm" (ngSubmit)="edit()">
   <ion-item>
       <ion-label>Nombre:</ion-label>
       <ion-input type="text" [(ngModel)]="firstname" [ngModelOptions]="{standalone: true}"></ion-input>
@@ -26,29 +24,15 @@
       <ion-input type="password" [(ngModel)]="pass" [ngModelOptions]="{standalone: true}"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Confirmar contraseña:</ion-label>
-      <ion-input type="password" [(ngModel)]="c_password" [ngModelOptions]="{standalone: true}"></ion-input>
-    </ion-item>
-
-    <ion-item>
       <ion-label>Compañia</ion-label>
       <ion-select [(ngModel)]="company_id" [ngModelOptions]="{standalone: true}">
           <ion-select-option *ngFor="let c of companies" [value]="c.id">{{ c.name }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <div *ngIf="pass==c_password; else conditionFalse">
-      <p class="ion-text-center">
-        <ion-button type="submit" [routerLink]="['/login']" >Guardar</ion-button>
-      </p>  
-    </div>
-    <ng-template #conditionFalse>
-      <ion-card class="ion-text-center">
-        <ion-card-header>
-          <ion-card-subtitle>
-            Asegurese de que los datos son correctos
-          </ion-card-subtitle>
-        </ion-card-header>    
-      </ion-card>
-    </ng-template>
   </form>
+
+<ion-button color="primary" expand="full" (click)="salirSinArgumentos()">Atras</ion-button>
+
+<ion-button color="secondary" expand="full" (click)="salirConArgumentos()">Guardar</ion-button>
+
 </ion-content>

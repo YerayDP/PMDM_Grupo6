@@ -7,11 +7,15 @@ import { environment } from '../../environments/environment.prod';
 })
 export class RestService {
   api = environment.apiUrl;
+  id:any;
   token: any;//any: para especificar una variable de cualquier tipo
   token2: any;
   userLogged: any;
+  currentUser: any;
   checkActived: any;
   checkConfirmed: any;
+
+
   constructor(private http: HttpClient) { }
 
   login(mail: any,pass: any) {// hacer opcionalmente para email: string y password: string
@@ -119,8 +123,10 @@ export class RestService {
   eliminar(token,id:any)
   {
     return new Promise(resolve => {
-      this.http.post(this.api + '/deleted/'+id,
-    
+      this.http.post(this.api + '/user/deleted/'+id,
+      {
+        user_id : id
+      },
       {
         // para crearnos la cabecera
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
@@ -133,12 +139,12 @@ export class RestService {
     });
   }
 
-  editar(token, id:any, firstname:any, secondname:any, email:any, password:any, company_id:any)
+  editar(token,id:any, firstname:any, secondname:any, email:any, password:any, company_id:any)
   {
     return new Promise(resolve => {
-      this.http.post(this.api + '/updated/'+id,
+      this.http.post(this.api + '/user/updated/'+id,
       {
-        'user_id':id,
+        'user_id': id,
         'firstname':firstname,
         'secondname':secondname,
         'email':email,
@@ -169,5 +175,22 @@ export class RestService {
       });
     });
       
+  }
+
+  user(token,id)
+  {
+    return new Promise(resolve => {
+      this.http.get(this.api + '/user/'+id,
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        this.currentUser = data;
+        console.log(data);
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
   }
 }

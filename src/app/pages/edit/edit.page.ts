@@ -15,14 +15,9 @@ export class EditPage implements OnInit {
   c_password: any;
   company_id: any;
 
-  constructor(private RestService: RestService) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  edit(id:any)
-  {
-    this.RestService.editar(this.RestService.token,id,this.firstname,this.secondname,this.mail,this.pass,this.company_id)
   }
 
 }

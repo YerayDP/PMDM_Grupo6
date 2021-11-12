@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ViewChild } from '@angular/core';
-import { IonList } from '@ionic/angular';
+import { IonList, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { LoadingController } from '@ionic/angular';  
 import { ThisReceiver } from '@angular/compiler';
+import { ModalInfoPage } from '../modal-info/modal-info.page';
 
 @Component({
   selector: 'app-tab1',
@@ -15,21 +16,20 @@ export class Tab1Page {
   @ViewChild('lista', {static: true}) lista: IonList;
   loading: any;
   usuarios: any=[];
-
-
+  usuario: any;
+  currentUser: any;
   
-  constructor(private restService: RestService, private loadingCtrl: LoadingController, private route: Router) { 
+  constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController) { 
     
     
    }
 
   ngOnInit(){
     this.showLoading();
-    
    
   }
   verUsuarios() {
-  
+
     if (this.restService.userLogged=="a") {
    
       this.restService.obtenerUsuarios(this.restService.token)
@@ -76,9 +76,34 @@ export class Tab1Page {
     this.showLoading();
    }
 
-   editar()
+   async abrirmodal(user:any)
    {
-    this.route.navigate(['/edit']);
+    const modal = await this.modalCtrl.create({
+      component: ModalInfoPage,
+      componentProps: {
+        user
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    console.log(data);
+
+    this.showLoading();
+   }
+
+   user(id: any)
+   {
+    this.restService.user(this.restService.token,id)
+    .then( data => {
+      this.usuario = data;
+    });
+   }
+
+   cogerId(id:any)
+   {
+    this.restService.user(this.restService.token,id);
    }
 
 }
