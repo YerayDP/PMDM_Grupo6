@@ -46,12 +46,12 @@ export class Tab1Page {
 
   async showLoading() {  
     const loading = await this.loadingCtrl.create({  
-    message: 'Loading.....'   
+    message: 'Loading.....'
     });  
-    loading.present();  
-    setTimeout(() => {  
-      loading.dismiss();  
-      this.verUsuarios()
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.verUsuarios();
     }, 500 );
  }   
   

@@ -40,6 +40,7 @@ export class ModalInfoPage implements OnInit {
 
   salirConArgumentos()
   {
+    console.log(this.user)
     this.modalCtrl.dismiss({
       firstname: this.firstname,
       secondname: this.secondname,
