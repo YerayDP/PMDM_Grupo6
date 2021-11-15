@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ViewChild } from '@angular/core';
-import { IonList, ModalController } from '@ionic/angular';
+import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { LoadingController } from '@ionic/angular';  
 import { ThisReceiver } from '@angular/compiler';
@@ -18,8 +18,9 @@ export class Tab1Page {
   usuarios: any=[];
   usuario: any;
   currentUser: any;
+  titulo: any;
   
-  constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController) { 
+  constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private alertController: AlertController) { 
     
     
    }
@@ -31,6 +32,8 @@ export class Tab1Page {
   verUsuarios() {
 
     if (this.restService.userLogged=="a") {
+
+      this.titulo='Administración'
    
       this.restService.obtenerUsuarios(this.restService.token)
   
@@ -40,11 +43,13 @@ export class Tab1Page {
       });
     }else{
       console.log("Usuario")
+
+      this.titulo = 'Catálogo'
     }
 
   }
 
-  async showLoading() {  
+  async showLoading() {
     const loading = await this.loadingCtrl.create({  
     message: 'Loading.....'
     });  
@@ -53,7 +58,7 @@ export class Tab1Page {
       loading.dismiss();
       this.verUsuarios();
     }, 500 );
- }   
+ }
   
   activar(id:any) {
     console.log(this.restService.token);
@@ -69,11 +74,32 @@ export class Tab1Page {
     this.showLoading();
    }
 
-   eliminar(id:any) {
-    console.log(id);
-    this.restService.eliminar(this.restService.token,id)
-    this.lista.closeSlidingItems();
-    this.showLoading();
+   async eliminar(id:any) {
+
+    this.alertController.create({
+      header: 'Cuidado',
+      message: '¿Seguro que desea borrar este usuario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Operacion cancelada');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            console.log(id);
+            this.restService.eliminar(this.restService.token,id)
+            this.lista.closeSlidingItems();
+            this.showLoading();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
+    });
+
    }
 
    async abrirmodal(user:any)
@@ -106,4 +132,8 @@ export class Tab1Page {
     this.restService.user(this.restService.token,id);
    }
 
+}
+
+function showAlert() {
+  throw new Error('Function not implemented.');
 }

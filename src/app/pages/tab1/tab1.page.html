@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Administrador </ion-title>
+    <ion-title> {{ titulo }} </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,7 +8,7 @@
 
   <ion-list #lista>
     <ion-item-sliding *ngFor="let usuario of usuarios.data">
-      <ion-item *ngIf="usuario.email_confirmed=='1'">
+      <ion-item *ngIf="usuario.email_confirmed=='1' && usuario.deleted==0">
         <ion-label>
           <h3>{{ usuario.firstname }} {{ usuario.secondname }}</h3>
           <p>{{ usuario.email }}</p>
