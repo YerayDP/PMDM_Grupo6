@@ -193,4 +193,36 @@ export class RestService {
       });
     });
   }
+
+  obtenerArticulos(token)
+  {
+    return new Promise(resolve => {
+ 
+      this.http.get(this.api + '/articles', {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        resolve(data);
+        console.log(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  eliminarArticulo(token,id:any)
+  {
+    return new Promise(resolve => {
+      this.http.delete(this.api + '/products/delete/'+id,
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
 }

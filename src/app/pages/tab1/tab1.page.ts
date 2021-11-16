@@ -19,6 +19,8 @@ export class Tab1Page {
   usuario: any;
   currentUser: any;
   titulo: any;
+  articulos: any = [];
+  tipo: any;
   
   constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private alertController: AlertController) { 
     
@@ -27,6 +29,7 @@ export class Tab1Page {
 
   ngOnInit(){
     this.showLoading();
+    this.tipo=this.restService.userLogged;
    
   }
   verUsuarios() {
@@ -41,10 +44,18 @@ export class Tab1Page {
           this.usuarios = data;
           
       });
+
     }else{
       console.log("Usuario")
 
       this.titulo = 'Catálogo'
+
+      this.restService.obtenerArticulos(this.restService.token)
+      .then(data => {
+        this.articulos = data;
+        
+    });  
+
     }
 
   }
@@ -119,21 +130,30 @@ export class Tab1Page {
     this.showLoading();
    }
 
-   user(id: any)
-   {
-    this.restService.user(this.restService.token,id)
-    .then( data => {
-      this.usuario = data;
+   async eliminarA(id:any) {
+
+    this.alertController.create({
+      header: 'Cuidado',
+      message: '¿Seguro que desea borrar este articulo?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Operacion cancelada');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            console.log(id);
+            this.restService.eliminarArticulo(this.restService.token,id)
+            this.lista.closeSlidingItems();
+            this.showLoading();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
     });
-   }
-
-   cogerId(id:any)
-   {
-    this.restService.user(this.restService.token,id);
-   }
-
-}
-
-function showAlert() {
-  throw new Error('Function not implemented.');
+  }
 }
