@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>modal-Precio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<form #f="ngForm" (ngSubmit)="edit()">
+  <ion-item>
+      <ion-label>Precio nuevo :</ion-label>
+      <ion-input type="text" [(ngModel)]="precio" [ngModelOptions]="{standalone: true}"></ion-input>
+  </ion-item>
+</form>
+
+<ion-button color="primary" expand="full" (click)="salirSinArgumentos()">Atras</ion-button>
+
+<ion-button color="secondary" expand="full" (click)="salirConArgumentos()">Guardar</ion-button>
+</ion-content>

@@ -6,6 +6,7 @@ import { RestService } from 'src/app/services/rest.service';
 import { LoadingController } from '@ionic/angular';  
 import { ThisReceiver } from '@angular/compiler';
 import { ModalInfoPage } from '../modal-info/modal-info.page';
+import { ModalArticulosPage } from '../modal-articulos/modal-articulos.page';
 
 @Component({
   selector: 'app-tab1',
@@ -20,6 +21,7 @@ export class Tab1Page {
   currentUser: any;
   titulo: any;
   articulos: any = [];
+  productos: any = [];
   tipo: any;
   
   constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private alertController: AlertController) { 
@@ -50,9 +52,9 @@ export class Tab1Page {
 
       this.titulo = 'Catálogo'
 
-      this.restService.obtenerArticulos(this.restService.token)
+      this.restService.obtenerProductos(this.restService.company_id)
       .then(data => {
-        this.articulos = data;
+        this.productos = data;
         
     });  
 
@@ -130,7 +132,7 @@ export class Tab1Page {
     this.showLoading();
    }
 
-   async eliminarA(id:any) {
+   async eliminarP(id:any) {
 
     this.alertController.create({
       header: 'Cuidado',
@@ -146,7 +148,7 @@ export class Tab1Page {
           text: 'Confirmar',
           handler: () => {
             console.log(id);
-            this.restService.eliminarArticulo(this.restService.token,id)
+            this.restService.eliminarProducto(this.restService.token,id)
             this.lista.closeSlidingItems();
             this.showLoading();
           }
@@ -155,5 +157,21 @@ export class Tab1Page {
     }).then(res => {
       res.present();
     });
+  }
+
+  async abrirmodalArticulos()
+  {
+   const modal = await this.modalCtrl.create({
+     component: ModalArticulosPage,
+     componentProps: {
+     }
+   });
+
+   await modal.present();
+
+   const { data } = await modal.onDidDismiss();
+   console.log(data);
+
+   this.showLoading();
   }
 }

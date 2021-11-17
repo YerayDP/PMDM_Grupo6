@@ -46,12 +46,4 @@ export class ModalInfoPage implements OnInit {
     this.restService.editar(this.restService.token, this.user.id, this.user.firstname, this.user.secondname, this.user.email, this.user.password, this.user.company_id);
   }
 
-  /*datosU()
-  {
-    this.restService.user(this.restService.token)
-    .then( data => {
-      this.usuario = data;
-    });
-  }*/
-
 }
