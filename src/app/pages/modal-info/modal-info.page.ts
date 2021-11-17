@@ -40,24 +40,10 @@ export class ModalInfoPage implements OnInit {
 
   salirConArgumentos()
   {
-    this.modalCtrl.dismiss({
-      firstname: this.firstname,
-      secondname: this.secondname,
-      email: this.mail,
-      password: this.pass,
-      company_id: this.company_id
-      
-
+    console.log(this.user)
+    this.modalCtrl.dismiss({   
     });
-    this.restService.editar(this.restService.token, this.user.id, this.firstname, this.secondname, this.mail, this.pass, this.company_id);
+    this.restService.editar(this.restService.token, this.user.id, this.user.firstname, this.user.secondname, this.user.email, this.user.password, this.user.company_id);
   }
-
-  /*datosU()
-  {
-    this.restService.user(this.restService.token)
-    .then( data => {
-      this.usuario = data;
-    });
-  }*/
 
 }

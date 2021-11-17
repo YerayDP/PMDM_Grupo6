@@ -14,6 +14,7 @@ export class RestService {
   currentUser: any;
   checkActived: any;
   checkConfirmed: any;
+  company_id: any;
 
 
   constructor(private http: HttpClient) { }
@@ -30,6 +31,7 @@ export class RestService {
         }).subscribe(data => {// raul@raul.com devuelve los datos a quien llame a esta función
           this.userLogged = data.data.type;
           this.checkActived = data.data.actived;
+          this.company_id = data.data.company_id;
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
           
@@ -188,6 +190,80 @@ export class RestService {
         this.currentUser = data;
         console.log(data);
         resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  obtenerProductos(company_id:any)
+  {
+    return new Promise(resolve => {
+ 
+      this.http.post(this.api + '/products/company',
+      {
+        id: company_id
+      },
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+      }).subscribe(data => {
+        resolve(data);
+        console.log(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  eliminarProducto(token,id:any)
+  {
+    return new Promise(resolve => {
+      this.http.delete(this.api + '/products/'+id,
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  añadirProducto(article_id:any, company_id:any, price:any, family_id:any)
+  {
+    return new Promise(resolve => {
+      this.http.post(this.api + '/products',
+      {
+        article_id : article_id,
+        company_id: company_id,
+        price: price,
+        family_id: family_id
+      },
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  obtenerArticulos(token)
+  {
+    return new Promise(resolve => {
+ 
+      this.http.get(this.api + '/articles', {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        resolve(data);
+        console.log(data);
       }, err => {
         console.log('Error, '+err);
       });

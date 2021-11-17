@@ -27,7 +27,15 @@ const routes: Routes = [
   {
     path: 'modal',
     loadChildren: () => import('./pages/modal/modal.module').then( m => m.ModalPageModule)
+  },  {
+    path: 'modal-articulos',
+    loadChildren: () => import('./pages/modal-articulos/modal-articulos.module').then( m => m.ModalArticulosPageModule)
   },
+  {
+    path: 'modal-precio',
+    loadChildren: () => import('./pages/modal-precio/modal-precio.module').then( m => m.ModalPrecioPageModule)
+  },
+
 
 ];
 

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ViewChild } from '@angular/core';
-import { IonList, ModalController } from '@ionic/angular';
+import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { LoadingController } from '@ionic/angular';  
 import { ThisReceiver } from '@angular/compiler';
 import { ModalInfoPage } from '../modal-info/modal-info.page';
+import { ModalArticulosPage } from '../modal-articulos/modal-articulos.page';
 
 @Component({
   selector: 'app-tab1',
@@ -18,19 +19,25 @@ export class Tab1Page {
   usuarios: any=[];
   usuario: any;
   currentUser: any;
+  titulo: any;
+  productos: any = [];
+  tipo: any;
   
-  constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController) { 
+  constructor(private restService: RestService, private loadingCtrl: LoadingController, private modalCtrl: ModalController, private alertController: AlertController) { 
     
     
    }
 
   ngOnInit(){
     this.showLoading();
+    this.tipo=this.restService.userLogged;
    
   }
   verUsuarios() {
 
     if (this.restService.userLogged=="a") {
+
+      this.titulo='Administración'
    
       this.restService.obtenerUsuarios(this.restService.token)
   
@@ -38,22 +45,32 @@ export class Tab1Page {
           this.usuarios = data;
           
       });
+
     }else{
       console.log("Usuario")
+
+      this.titulo = 'Catálogo'
+
+      this.restService.obtenerProductos(this.restService.company_id)
+      .then(data => {
+        this.productos = data;
+        
+    });  
+
     }
 
   }
 
-  async showLoading() {  
+  async showLoading() {
     const loading = await this.loadingCtrl.create({  
-    message: 'Loading.....'   
+    message: 'Loading.....'
     });  
-    loading.present();  
-    setTimeout(() => {  
-      loading.dismiss();  
-      this.verUsuarios()
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.verUsuarios();
     }, 500 );
- }   
+ }
   
   activar(id:any) {
     console.log(this.restService.token);
@@ -69,11 +86,32 @@ export class Tab1Page {
     this.showLoading();
    }
 
-   eliminar(id:any) {
-    console.log(id);
-    this.restService.eliminar(this.restService.token,id)
-    this.lista.closeSlidingItems();
-    this.showLoading();
+   async eliminar(id:any) {
+
+    this.alertController.create({
+      header: 'Cuidado',
+      message: '¿Seguro que desea borrar este usuario?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Operacion cancelada');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            console.log(id);
+            this.restService.eliminar(this.restService.token,id)
+            this.lista.closeSlidingItems();
+            this.showLoading();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
+    });
+
    }
 
    async abrirmodal(user:any)
@@ -93,17 +131,46 @@ export class Tab1Page {
     this.showLoading();
    }
 
-   user(id: any)
-   {
-    this.restService.user(this.restService.token,id)
-    .then( data => {
-      this.usuario = data;
+   async eliminarP(id:any) {
+
+    this.alertController.create({
+      header: 'Cuidado',
+      message: '¿Seguro que desea borrar este articulo?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            console.log('Operacion cancelada');
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            console.log(id);
+            this.restService.eliminarProducto(this.restService.token,id)
+            this.lista.closeSlidingItems();
+            this.showLoading();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
     });
-   }
+  }
 
-   cogerId(id:any)
-   {
-    this.restService.user(this.restService.token,id);
-   }
+  async abrirmodalArticulos()
+  {
+   const modal = await this.modalCtrl.create({
+     component: ModalArticulosPage,
+     componentProps: {
+     }
+   });
 
+   await modal.present();
+
+   const { data } = await modal.onDidDismiss();
+   console.log(data);
+
+   this.showLoading();
+  }
 }
