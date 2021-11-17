@@ -20,7 +20,6 @@ export class Tab1Page {
   usuario: any;
   currentUser: any;
   titulo: any;
-  articulos: any = [];
   productos: any = [];
   tipo: any;
   

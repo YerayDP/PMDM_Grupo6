@@ -29,7 +29,7 @@ export class ModalArticulosPage implements OnInit {
 
   salirConArgumentos()
   {
-    console.log('Hola');
+    console.log('Atras');
     this.modalCtrl.dismiss({   
     });
   }
