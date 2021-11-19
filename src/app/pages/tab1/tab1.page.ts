@@ -36,8 +36,6 @@ export class Tab1Page {
   verUsuarios() {
 
     if (this.restService.userLogged=="a") {
-
-      this.titulo='Administración'
    
       this.restService.obtenerUsuarios(this.restService.token)
   
@@ -47,9 +45,6 @@ export class Tab1Page {
       });
 
     }else{
-      console.log("Usuario")
-
-      this.titulo = 'Catálogo'
 
       this.restService.obtenerProductos(this.restService.company_id)
       .then(data => {

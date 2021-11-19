@@ -10,12 +10,17 @@ import { RestService } from 'src/app/services/rest.service';
 export class ModalPrecioPage implements OnInit {
 
   @Input() producto : any;
+
+  precio_min : any;
+  precio_max : any;
   
   precio:any;
 
   constructor(private modalCtrl: ModalController, private restService: RestService) { }
 
   ngOnInit() {
+    this.precio_min = this.producto.price_min;
+    this.precio_max = this.producto.price_max;
   }
 
   salirSinArgumentos()

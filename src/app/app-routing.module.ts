@@ -35,6 +35,22 @@ const routes: Routes = [
     path: 'modal-precio',
     loadChildren: () => import('./pages/modal-precio/modal-precio.module').then( m => m.ModalPrecioPageModule)
   },
+  {
+    path: 'tab4',
+    loadChildren: () => import('./pages/tab4/tab4.module').then( m => m.Tab4PageModule)
+  },
+  {
+    path: 'tab5',
+    loadChildren: () => import('./pages/tab5/tab5.module').then( m => m.Tab5PageModule)
+  },
+  {
+    path: 'tab6',
+    loadChildren: () => import('./pages/tab6/tab6.module').then( m => m.Tab6PageModule)
+  },
+  {
+    path: 'tabs-u',
+    loadChildren: () => import('./pages/tabs-u/tabs-u.module').then( m => m.TabsUPageModule)
+  },
 
 
 ];

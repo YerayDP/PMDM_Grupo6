@@ -12,8 +12,26 @@
       <ion-input type="text" [(ngModel)]="precio" [ngModelOptions]="{standalone: true}"></ion-input>
   </ion-item>
 </form>
+<ion-label>&nbsp;&nbsp;&nbsp;(Entre {{precio_min}} y {{precio_max}})</ion-label>
 
-<ion-button color="primary" expand="full" (click)="salirSinArgumentos()">Atras</ion-button>
+<div *ngIf="precio <= precio_max && precio >= precio_min ; else conditionFalse">
+      <p class="ion-text-center">
+        <ion-button color="primary" expand="full" (click)="salirConArgumentos()">Aceptar</ion-button>
+      </p>  
+    </div>
+    <ng-template #conditionFalse>
+      <ion-card class="ion-text-center">
+        <ion-card-header>
+          <ion-card-subtitle>
+            Asegurese de que el precio es correcto
+          </ion-card-subtitle>
+        </ion-card-header>    
+      </ion-card>
+    </ng-template>
 
-<ion-button color="secondary" expand="full" (click)="salirConArgumentos()">Guardar</ion-button>
+<ion-button color="secondary" expand="full" (click)="salirSinArgumentos()">Atras</ion-button>
+
 </ion-content>
+
+
+

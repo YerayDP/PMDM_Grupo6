@@ -41,7 +41,7 @@ export class ModalInfoPage implements OnInit {
   salirConArgumentos()
   {
     console.log(this.user)
-    this.modalCtrl.dismiss({   
+    this.modalCtrl.dismiss({
     });
     this.restService.editar(this.restService.token, this.user.id, this.user.firstname, this.user.secondname, this.user.email, this.user.password, this.user.company_id);
   }
