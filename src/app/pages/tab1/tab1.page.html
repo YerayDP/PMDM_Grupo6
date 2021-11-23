@@ -1,35 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> {{ titulo }} </ion-title>
+    <ion-title> Administracion de usuarios </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-<h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lleva {{ productos.data?.length || '0' }} productos de 5 </h5>
-
-
-
-<ion-fab *ngIf="productos.data?.length <5" slot="fixed" vertical="end" horizontal="end">
-  <ion-fab-button>
-    <ion-icon (click)="abrirmodalArticulos()" name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
-  <ion-list>
-    <ion-item-sliding *ngFor="let producto of productos.data">
-      <ion-item>
-        <ion-label>
-          <h3>{{ producto.article_id }}</h3>
-        </ion-label>
-      </ion-item>
-      <ion-item-options color="danger" side="end">
-        <ion-item-option *ngIf="producto.deleted==0" (click)="eliminarP(producto.id)">
-          <ion-button>Borrar</ion-button>
-        </ion-item-option>
-        </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
 
   <ion-list #lista>
     <ion-item-sliding *ngFor="let usuario of usuarios.data">

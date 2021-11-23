@@ -27,7 +27,8 @@ const routes: Routes = [
   {
     path: 'modal',
     loadChildren: () => import('./pages/modal/modal.module').then( m => m.ModalPageModule)
-  },  {
+  },
+  {
     path: 'modal-articulos',
     loadChildren: () => import('./pages/modal-articulos/modal-articulos.module').then( m => m.ModalArticulosPageModule)
   },
@@ -36,12 +37,20 @@ const routes: Routes = [
     loadChildren: () => import('./pages/modal-precio/modal-precio.module').then( m => m.ModalPrecioPageModule)
   },
   {
-    path: 'tab1-u',
-    loadChildren: () => import('./tab1-u/tab1-u.module').then( m => m.Tab1UPageModule)
+    path: 'tab4',
+    loadChildren: () => import('./pages/tab4/tab4.module').then( m => m.Tab4PageModule)
   },
   {
-    path: 'tab2-u',
-    loadChildren: () => import('./tab2-u/tab2-u.module').then( m => m.Tab2UPageModule)
+    path: 'tab5',
+    loadChildren: () => import('./pages/tab5/tab5.module').then( m => m.Tab5PageModule)
+  },
+  {
+    path: 'tab6',
+    loadChildren: () => import('./pages/tab6/tab6.module').then( m => m.Tab6PageModule)
+  },
+  {
+    path: 'tabs-u',
+    loadChildren: () => import('./pages/tabs-u/tabs-u.module').then( m => m.TabsUPageModule)
   },
 
 

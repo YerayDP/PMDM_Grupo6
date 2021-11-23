@@ -32,24 +32,14 @@ check(){
     this.tokenLog=data;//token
     console.log(this.tokenLog);
     
-      if (this.RestService.checkActived==1) {
-     
-        this.RestService.obtenerUsuarios(this.tokenLog)
-        
-    
-        .then(data => {
-          
-            this.usuarios = data;
-            console.log(this.usuarios);
-            
-        });
+      if (this.RestService.checkActived==1 && this.RestService.userLogged=='a') {
         this.route.navigate(['/tabs/tab1']);
 
 
       }else{
-        console.log(this.RestService.checkActived)
 
-        console.log("Usuario no autorizado")
+        this.route.navigate(['/tabs-u/tab4']);
+
       }
   
     
