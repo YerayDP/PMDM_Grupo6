@@ -35,6 +35,14 @@ const routes: Routes = [
     path: 'modal-precio',
     loadChildren: () => import('./pages/modal-precio/modal-precio.module').then( m => m.ModalPrecioPageModule)
   },
+  {
+    path: 'tab1-u',
+    loadChildren: () => import('./tab1-u/tab1-u.module').then( m => m.Tab1UPageModule)
+  },
+  {
+    path: 'tab2-u',
+    loadChildren: () => import('./tab2-u/tab2-u.module').then( m => m.Tab2UPageModule)
+  },
 
 
 ];
