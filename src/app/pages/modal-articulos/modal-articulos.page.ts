@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { IonSearchbar, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
 
@@ -10,16 +11,43 @@ import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
 })
 export class ModalArticulosPage implements OnInit {
 
-  articulos: any = [];
 
-  constructor(private modalCtrl: ModalController, private restService: RestService) { }
+  @ViewChild('search', {static:false}) search: IonSearchbar;
+  items2:any
+  items:any
+  articulos: any = [];
+  searchField: FormControl;
+
+  constructor(private modalCtrl: ModalController, private restService: RestService) { 
+    
+  }
+
+  
+  getItems(ev:any){
+
+    
+    const val = ev.target.value;
+    this.items2=this.items;
+    if (val && val.trim()!='') {
+      this.items2 = this.items.filter((item : any)=>{
+        console.log(item.description)
+        return (item.description.toLowerCase().indexOf(val.toLowerCase())>-1);
+      })
+    }
+  }
 
   ngOnInit() {
     this.restService.obtenerArticulos(this.restService.token)
     .then(data => {
       this.articulos = data;
-      
+      this.items=this.articulos.data;
+      this.items2=this.items;
   });  
+  }
+  ionViewDidEnter(){
+    setTimeout(() =>{
+      this.search.setFocus();
+    })
   }
 
   salirSinArgumentos()

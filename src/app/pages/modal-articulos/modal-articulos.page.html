@@ -7,8 +7,10 @@
 <ion-content>
 
 <ion-list>
-  <ion-searchbar></ion-searchbar>
-    <ion-item-sliding *ngFor="let articulo of articulos.data">
+  <ion-toolbar>
+    <ion-searchbar #search (ionChange)="getItems($event)"></ion-searchbar>
+  </ion-toolbar>
+    <ion-item-sliding *ngFor="let articulo of items2">
       <ion-item>
         <ion-label>
           <h1>{{ articulo.id }}</h1>
