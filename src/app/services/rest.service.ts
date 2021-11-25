@@ -15,6 +15,7 @@ export class RestService {
   checkActived: any;
   checkConfirmed: any;
   company_id: any;
+  articulosS: any;
 
 
   constructor(private http: HttpClient) { }
@@ -34,10 +35,9 @@ export class RestService {
           this.company_id = data.data.company_id;
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
-          
-  
+
           resolve(this.token);
-          
+          this.obtenerArticulos(this.token);
         });
     });
   }
@@ -263,6 +263,7 @@ export class RestService {
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
       }).subscribe(data => {
         resolve(data);
+        this.articulosS=data;
         console.log(data);
       }, err => {
         console.log('Error, '+err);

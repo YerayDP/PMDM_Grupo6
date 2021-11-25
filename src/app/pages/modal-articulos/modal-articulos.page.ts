@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { IonSearchbar, ModalController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
 
@@ -11,44 +10,30 @@ import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
 })
 export class ModalArticulosPage implements OnInit {
 
+  @Input() p : any;
 
-  @ViewChild('search', {static:false}) search: IonSearchbar;
-  items2:any
-  items:any
   articulos: any = [];
-  searchField: FormControl;
+  articulosFin: any = [];
 
-  constructor(private modalCtrl: ModalController, private restService: RestService) { 
-    
-  }
-
-  
-  getItems(ev:any){
-
-    
-    const val = ev.target.value;
-    this.items2=this.items;
-    if (val && val.trim()!='') {
-      this.items2 = this.items.filter((item : any)=>{
-        console.log(item.description)
-        return (item.description.toLowerCase().indexOf(val.toLowerCase())>-1);
-      })
-    }
-  }
+  constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    this.restService.obtenerArticulos(this.restService.token)
+    //console.log(this.restService.articulosS.data)
+
+    this.rellenar();
+
+    this.showLoading();
+
+    console.log(this.p);
+  }
+
+  obtenerArticulos()
+  {
+  this.restService.obtenerArticulos(this.restService.token)
     .then(data => {
       this.articulos = data;
-      this.items=this.articulos.data;
-      this.items2=this.items;
-  });  
-  }
-  ionViewDidEnter(){
-    setTimeout(() =>{
-      this.search.setFocus();
-    })
-  }
+  });
+}
 
   salirSinArgumentos()
   {
@@ -58,7 +43,7 @@ export class ModalArticulosPage implements OnInit {
   salirConArgumentos()
   {
     console.log('Atras');
-    this.modalCtrl.dismiss({   
+    this.modalCtrl.dismiss({
     });
   }
 
@@ -78,4 +63,36 @@ export class ModalArticulosPage implements OnInit {
 
   }
 
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({  
+    message: 'Loading.....'
+    });  
+    loading.present();
+    this.obtenerArticulos();
+    setTimeout(() => {
+      loading.dismiss();
+    }, 500 );
+    
+
+ }
+
+ rellenar()
+ {
+   const articulos_id :any[] = [];
+   const productos_id=[];
+   //console.log(this.restService.articulosS.data[4].id);
+    for(let i = 0; i<=this.restService.articulosS.data.length;i++)
+    {
+      var id : any = this.restService.articulosS.data[i].id;
+      articulos_id.push(id);
+      console.log(id);
+    }
+
+    /*for(let i = 1; i<=this.p.data.length;i++)
+    {
+      productos_id.push(i);
+    }*/
+
+    console.log(articulos_id);
+ }
 }

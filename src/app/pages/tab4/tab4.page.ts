@@ -34,7 +34,6 @@ export class Tab4Page implements OnInit {
   
       .then(data => {
           this.usuarios = data;
-          
       });
 
     }else{
@@ -88,9 +87,11 @@ export class Tab4Page implements OnInit {
 
   async abrirmodalArticulos()
   {
+    const p=this.productos['data']
    const modal = await this.modalCtrl.create({
      component: ModalArticulosPage,
      componentProps: {
+      p
      }
    });
 
@@ -100,6 +101,8 @@ export class Tab4Page implements OnInit {
    console.log(data);
 
    this.showLoading();
+
+   console.log(p);
   }
 
 }
