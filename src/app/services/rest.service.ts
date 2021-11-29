@@ -264,7 +264,7 @@ export class RestService {
       }).subscribe(data => {
         resolve(data);
         this.articulosS=data;
-        console.log(data);
+        //console.log(data);
       }, err => {
         console.log('Error, '+err);
       });
