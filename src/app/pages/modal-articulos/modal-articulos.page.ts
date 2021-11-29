@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { IonSearchbar,LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
 
@@ -12,7 +13,11 @@ export class ModalArticulosPage implements OnInit {
 
   @Input() p : any;
 
+  @ViewChild('search', {static:false}) search: IonSearchbar;
+  items2:any
+  items:any
   articulos: any = [];
+  searchField: FormControl;
   articulosFin: any = [];
 
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
@@ -25,12 +30,32 @@ export class ModalArticulosPage implements OnInit {
 
     console.log(this.p);
   }
+  ionViewDidEnter(){
+    setTimeout(() =>{
+      this.search.setFocus();
+    })
+  }
+
+  getItems(ev:any){
+
+    
+    const val = ev.target.value;
+    this.items2=this.items;
+    if (val && val.trim()!='') {
+      this.items2 = this.items.filter((item : any)=>{
+        console.log(item.description)
+        return (item.description.toLowerCase().indexOf(val.toLowerCase())>-1);
+      })
+    }
+  }
 
   obtenerArticulos()
   {
   this.restService.obtenerArticulos(this.restService.token)
     .then(data => {
       this.articulos = data;
+      this.items=this.articulos.data;
+      this.items2=this.items;
   });
 }
 
@@ -90,8 +115,13 @@ export class ModalArticulosPage implements OnInit {
     /*for(let i = 1; i<=this.p.data.length;i++)
     {
       productos_id.push(i);
-    }*/
+    }
 
+<<<<<<< HEAD
     //console.log(articulos_id);
+=======
+    console.log(articulos_id);
+  */
+>>>>>>> b48b699b064fc428f20507d003235a47036c5d0e
  }
 }
