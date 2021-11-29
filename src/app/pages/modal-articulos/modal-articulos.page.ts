@@ -14,7 +14,7 @@ export class ModalArticulosPage implements OnInit {
   @Input() p : any;
 
   @ViewChild('search', {static:false}) search: IonSearchbar;
-  items2:any
+  items2:any[] = [];
   items:any
   articulos: any = [];
   searchField: FormControl;
@@ -23,13 +23,10 @@ export class ModalArticulosPage implements OnInit {
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    //console.log(this.restService.articulosS.data)
 
-    //this.rellenar();
+    this.rellenar();
 
     this.showLoading();
-
-    console.log(this.p);
   }
   ionViewDidEnter(){
     setTimeout(() =>{
@@ -41,9 +38,8 @@ export class ModalArticulosPage implements OnInit {
 
     
     const val = ev.target.value;
-    this.items2=this.items;
     if (val && val.trim()!='') {
-      this.items2 = this.items.filter((item : any)=>{
+      this.articulosFin = this.items.filter((item : any)=>{
         console.log(item.description)
         return (item.description.toLowerCase().indexOf(val.toLowerCase())>-1);
       })
@@ -103,22 +99,39 @@ export class ModalArticulosPage implements OnInit {
 
  rellenar()
  {
-   const articulos_id :any[] = [];
-   const productos_id=[];
-   //console.log(this.restService.articulosS.data[4].id);
-    /*for(let i = 0; i<=this.restService.articulosS.data.length;i++)
-    {
-      var id : any = this.restService.articulosS.data[i].id;
-      articulos_id.push(id);
-      console.log(id);
-    }
+   var articulos2 :any[] = [];
+   var productos_id: any[] =[];
+   
+   for(let i = 0; i<this.p.length;i++)
+   {
+    var id = this.p[i].article_id;
+    productos_id.push(id);
+   }
+   
 
-    /*for(let i = 1; i<=this.p.data.length;i++)
+    for(let i = 0; i < this.restService.articulosS.data.length;i++)
     {
-      productos_id.push(i);
+      var id = this.restService.articulosS.data[i].id;
+      articulos2.push(id);
     }
+    console.log(productos_id);
+    console.log(articulos2);
 
-    console.log(articulos_id);
-  */
+    this.articulos=this.restService.articulosS.data
+    console.log(this.articulos)
+    
+    var listaId = articulos2.filter(e=>!productos_id.includes(e));
+    for(let i =0; i<this.articulos.length; i++){
+      for(let j =0; j<listaId.length; j++){
+        if(listaId[j]==this.articulos[i].id){
+          this.articulosFin.push(this.articulos[i])
+          //console.log(this.articulos[i])
+        }
+      }
+      
+    }
+    console.log(this.articulosFin);
+    //console.log(listaId);
+    
  }
 }

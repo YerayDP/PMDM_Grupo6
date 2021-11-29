@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ViewChild } from '@angular/core';
 import { AlertController, IonList, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
