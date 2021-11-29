@@ -19,8 +19,7 @@ export class ModalArticulosPage implements OnInit {
 
   ngOnInit() {
     //console.log(this.restService.articulosS.data)
-
-    this.rellenar();
+    //this.rellenar();
 
     this.showLoading();
 
@@ -78,21 +77,21 @@ export class ModalArticulosPage implements OnInit {
 
  rellenar()
  {
-   const articulos_id :any[] = [];
-   const productos_id=[];
+   //const articulos_id :any[] = [];
+   //const productos_id=[];
    //console.log(this.restService.articulosS.data[4].id);
-    for(let i = 0; i<=this.restService.articulosS.data.length;i++)
+    /*for(let i = 0; i<=this.restService.articulosS.data.length;i++)
     {
       var id : any = this.restService.articulosS.data[i].id;
       articulos_id.push(id);
       console.log(id);
     }
-
+*/
     /*for(let i = 1; i<=this.p.data.length;i++)
     {
       productos_id.push(i);
     }*/
 
-    console.log(articulos_id);
+    //console.log(articulos_id);
  }
 }

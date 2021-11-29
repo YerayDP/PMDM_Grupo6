@@ -19,3 +19,5 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [ModalArticulosPage]
 })
 export class ModalArticulosPageModule {}
+
+
