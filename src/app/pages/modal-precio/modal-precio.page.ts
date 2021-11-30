@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 
@@ -8,7 +9,7 @@ import { RestService } from 'src/app/services/rest.service';
   styleUrls: ['./modal-precio.page.scss'],
 })
 export class ModalPrecioPage implements OnInit {
-
+  
   @Input() producto : any;
 
   precio_min : any;
@@ -16,7 +17,7 @@ export class ModalPrecioPage implements OnInit {
   
   precio:any;
 
-  constructor(private modalCtrl: ModalController, private restService: RestService) { }
+  constructor(private modalCtrl: ModalController, private restService: RestService, private router: Router) { }
 
   ngOnInit() {
     this.precio_min = this.producto.price_min;
@@ -35,8 +36,13 @@ export class ModalPrecioPage implements OnInit {
     console.log(this.precio);
     console.log(this.producto.family_id);
     console.log(this.restService.company_id);
+    this.router.navigate(['tab4'])
     this.modalCtrl.dismiss({
+      
     });
+  }
+  tab4Redirect() {
+    this.router.navigate(['/tab4']);
   }
 
 }

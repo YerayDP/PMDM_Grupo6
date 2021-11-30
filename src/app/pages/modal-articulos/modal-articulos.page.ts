@@ -19,13 +19,15 @@ export class ModalArticulosPage implements OnInit {
   articulos: any = [];
   searchField: FormControl;
   articulosFin: any = [];
+  articulos_id :any = [];
+  productos_id: any =[];
 
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     //console.log(this.restService.articulosS.data)
 
-    //this.rellenar();
+    this.rellenar();
 
     this.showLoading();
 
@@ -103,22 +105,23 @@ export class ModalArticulosPage implements OnInit {
 
  rellenar()
  {
-   const articulos_id :any[] = [];
-   const productos_id=[];
+   /*
    //console.log(this.restService.articulosS.data[4].id);
-    /*for(let i = 0; i<=this.restService.articulosS.data.length;i++)
+    for(let i = 0; i<=this.restService.articulosS.data.length;i++)
     {
-      var id : any = this.restService.articulosS.data[i].id;
-      articulos_id.push(id);
-      console.log(id);
+      const id = this.restService.articulosS.data[i].id;
+      this.articulos_id.push(id);
+      
+    }
+    console.log(this.articulos_id);
+    for(let i = 1; i<=this.p.data.length;i++)
+    {
+      const id = this.p.data[i].id;
+      this.productos_id.push(id);
+      console.log(this.productos_id);
     }
 
-    /*for(let i = 1; i<=this.p.data.length;i++)
-    {
-      productos_id.push(i);
-    }
-
-    console.log(articulos_id);
-  */
+    
+   */
  }
 }

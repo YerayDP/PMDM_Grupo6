@@ -16,7 +16,7 @@
 
 <div *ngIf="precio <= precio_max && precio >= precio_min ; else conditionFalse">
       <p class="ion-text-center">
-        <ion-button color="primary" expand="full" (click)="salirConArgumentos()">Aceptar</ion-button>
+        <ion-button color="primary" expand="full" (click)="salirConArgumentos()" (click)="tab4Redirect()">Aceptar</ion-button>
       </p>  
     </div>
     <ng-template #conditionFalse>
@@ -29,7 +29,7 @@
       </ion-card>
     </ng-template>
 
-<ion-button color="secondary" expand="full" (click)="salirSinArgumentos()">Atras</ion-button>
+<ion-button color="secondary" expand="full" (click)="salirSinArgumentos()" >Atras</ion-button>
 
 </ion-content>
 
