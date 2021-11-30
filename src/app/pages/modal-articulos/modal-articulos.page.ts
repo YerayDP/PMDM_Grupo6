@@ -14,11 +14,11 @@ export class ModalArticulosPage implements OnInit {
   @Input() p : any;
 
   @ViewChild('search', {static:false}) search: IonSearchbar;
-  items2:any[] = [];
+  items2:any;
   items:any
   articulos: any = [];
   searchField: FormControl;
-  articulosFin: any = [];
+  articulosFin: any[] = [];
 
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
 
@@ -36,11 +36,10 @@ export class ModalArticulosPage implements OnInit {
 
   getItems(ev:any){
 
-    
+    this.items2=this.articulosFin
     const val = ev.target.value;
     if (val && val.trim()!='') {
-      this.articulosFin = this.items.filter((item : any)=>{
-        console.log(item.description)
+      this.items2 = this.items.filter((item : any)=>{
         return (item.description.toLowerCase().indexOf(val.toLowerCase())>-1);
       })
     }
@@ -51,8 +50,8 @@ export class ModalArticulosPage implements OnInit {
   this.restService.obtenerArticulos(this.restService.token)
     .then(data => {
       this.articulos = data;
-      this.items=this.articulos.data;
-      this.items2=this.items;
+      this.items=this.articulosFin;
+      this.items2=this.articulosFin;
   });
 }
 
@@ -89,8 +88,8 @@ export class ModalArticulosPage implements OnInit {
     message: 'Loading.....'
     });  
     loading.present();
-    this.obtenerArticulos();
     setTimeout(() => {
+      this.obtenerArticulos();
       loading.dismiss();
     }, 500 );
     
