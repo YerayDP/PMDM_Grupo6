@@ -36,13 +36,10 @@ export class ModalPrecioPage implements OnInit {
     console.log(this.precio);
     console.log(this.producto.family_id);
     console.log(this.restService.company_id);
-    this.router.navigate(['tab4'])
+    this.router.navigate(['/tab4'])
     this.modalCtrl.dismiss({
       
     });
   }
-  tab4Redirect() {
-    this.router.navigate(['/tab4']);
-  }
-
+  
 }
