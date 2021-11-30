@@ -14,24 +14,19 @@ export class ModalArticulosPage implements OnInit {
   @Input() p : any;
 
   @ViewChild('search', {static:false}) search: IonSearchbar;
-  items2:any
+  items2:any;
   items:any
   articulos: any = [];
   searchField: FormControl;
-  articulosFin: any = [];
-  articulos_id :any = [];
-  productos_id: any =[];
+  articulosFin: any[] = [];
 
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
-    //console.log(this.restService.articulosS.data)
 
     this.rellenar();
 
     this.showLoading();
-
-    console.log(this.p);
   }
   ionViewDidEnter(){
     setTimeout(() =>{
@@ -41,12 +36,10 @@ export class ModalArticulosPage implements OnInit {
 
   getItems(ev:any){
 
-    
+    this.items2=this.articulosFin
     const val = ev.target.value;
-    this.items2=this.items;
     if (val && val.trim()!='') {
       this.items2 = this.items.filter((item : any)=>{
-        console.log(item.description)
         return (item.description.toLowerCase().indexOf(val.toLowerCase())>-1);
       })
     }
@@ -57,8 +50,8 @@ export class ModalArticulosPage implements OnInit {
   this.restService.obtenerArticulos(this.restService.token)
     .then(data => {
       this.articulos = data;
-      this.items=this.articulos.data;
-      this.items2=this.items;
+      this.items=this.articulosFin;
+      this.items2=this.articulosFin;
   });
 }
 
@@ -95,8 +88,8 @@ export class ModalArticulosPage implements OnInit {
     message: 'Loading.....'
     });  
     loading.present();
-    this.obtenerArticulos();
     setTimeout(() => {
+      this.obtenerArticulos();
       loading.dismiss();
     }, 500 );
     
@@ -105,23 +98,39 @@ export class ModalArticulosPage implements OnInit {
 
  rellenar()
  {
-   /*
-   //console.log(this.restService.articulosS.data[4].id);
-    for(let i = 0; i<=this.restService.articulosS.data.length;i++)
+   var articulos2 :any[] = [];
+   var productos_id: any[] =[];
+   
+   for(let i = 0; i<this.p.length;i++)
+   {
+    var id = this.p[i].article_id;
+    productos_id.push(id);
+   }
+   
+
+    for(let i = 0; i < this.restService.articulosS.data.length;i++)
     {
-      const id = this.restService.articulosS.data[i].id;
-      this.articulos_id.push(id);
+      var id = this.restService.articulosS.data[i].id;
+      articulos2.push(id);
+    }
+    console.log(productos_id);
+    console.log(articulos2);
+
+    this.articulos=this.restService.articulosS.data
+    console.log(this.articulos)
+    
+    var listaId = articulos2.filter(e=>!productos_id.includes(e));
+    for(let i =0; i<this.articulos.length; i++){
+      for(let j =0; j<listaId.length; j++){
+        if(listaId[j]==this.articulos[i].id){
+          this.articulosFin.push(this.articulos[i])
+          //console.log(this.articulos[i])
+        }
+      }
       
     }
-    console.log(this.articulos_id);
-    for(let i = 1; i<=this.p.data.length;i++)
-    {
-      const id = this.p.data[i].id;
-      this.productos_id.push(id);
-      console.log(this.productos_id);
-    }
-
+    console.log(this.articulosFin);
+    //console.log(listaId);
     
-   */
  }
 }
