@@ -33,7 +33,7 @@ export class Tab4Page implements OnInit {
       this.restService.obtenerUsuarios(this.restService.token)
   
       .then(data => {
-          this.usuarios = data;
+          this.usuarios = data;  
       });
 
     }else{
@@ -41,7 +41,8 @@ export class Tab4Page implements OnInit {
       this.restService.obtenerProductos(this.restService.company_id)
       .then(data => {
         this.productos = data;
-        
+        this.restService.numProductos=this.restService.productosS.data.length;
+        console.log(this.restService.numProductos);
     });  
 
     }

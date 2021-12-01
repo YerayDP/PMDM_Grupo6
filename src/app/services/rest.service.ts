@@ -16,6 +16,9 @@ export class RestService {
   checkConfirmed: any;
   company_id: any;
   articulosS: any;
+  numProductos: any;
+  productosS: any;
+
 
 
   constructor(private http: HttpClient) { }
@@ -209,6 +212,7 @@ export class RestService {
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
         resolve(data);
+        this.productosS=data
         console.log(data);
       }, err => {
         console.log('Error, '+err);

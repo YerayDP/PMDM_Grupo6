@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ModalArticulosPage } from './modal-articulos.page';
+import { Tab4PageModule } from '../tab4/tab4.module';
 
 const routes: Routes = [
   {

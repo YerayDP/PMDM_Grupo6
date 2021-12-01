@@ -3,6 +3,8 @@ import { FormControl } from '@angular/forms';
 import { IonSearchbar,LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
+import { Tab4PageModule } from '../tab4/tab4.module';
+import { Tab4Page } from '../tab4/tab4.page';
 
 @Component({
   selector: 'app-modal-articulos',
@@ -15,10 +17,11 @@ export class ModalArticulosPage implements OnInit {
 
   @ViewChild('search', {static:false}) search: IonSearchbar;
   items2:any;
-  items:any
+  items:any;
   articulos: any = [];
   searchField: FormControl;
   articulosFin: any[] = [];
+  ps: any;
 
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController) { }
 
@@ -27,6 +30,9 @@ export class ModalArticulosPage implements OnInit {
     this.rellenar();
 
     this.showLoading();
+
+    this.ps=this.restService.numProductos
+
   }
   ionViewDidEnter(){
     setTimeout(() =>{
@@ -69,6 +75,7 @@ export class ModalArticulosPage implements OnInit {
 
   async abrirmodalArticulos(producto:any)
   {
+    this.modalCtrl.dismiss();
    const modal = await this.modalCtrl.create({
      component: ModalPrecioPage,
      componentProps: {
@@ -124,13 +131,11 @@ export class ModalArticulosPage implements OnInit {
       for(let j =0; j<listaId.length; j++){
         if(listaId[j]==this.articulos[i].id){
           this.articulosFin.push(this.articulos[i])
-          //console.log(this.articulos[i])
         }
       }
       
     }
     console.log(this.articulosFin);
-    //console.log(listaId);
     
  }
 }
