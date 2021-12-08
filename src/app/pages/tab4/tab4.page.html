@@ -8,12 +8,6 @@
 
 <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lleva {{ productos.data?.length || '0' }} productos de 5 </h5>
 
-<ion-fab *ngIf="productos.data?.length <5" slot="fixed" vertical="end" horizontal="end">
-  <ion-fab-button>
-    <ion-icon (click)="abrirmodalArticulos()" name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
   <ion-list #lista>
     <ion-item-sliding *ngFor="let producto of productos.data">
       <ion-item>
@@ -28,5 +22,11 @@
         </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
+  <ion-fab *ngIf="productos.data?.length <5" slot="fixed" vertical="end" horizontal="end">
+  <ion-fab-button>
+    <ion-icon (click)="abrirmodalArticulos()" name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 
 </ion-content>

@@ -130,7 +130,7 @@ export class RestService {
     return new Promise(resolve => {
       this.http.post(this.api + '/user/deleted/'+id,
       {
-        user_id : id
+        'user_id' : id
       },
       {
         // para crearnos la cabecera
@@ -274,4 +274,35 @@ export class RestService {
       });
     });
   }
+
+  obtenerPedidos(token)
+  {
+    return new Promise(resolve => {
+ 
+      this.http.get(this.api + '/orders/', {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  obtenerDatosArt(token,id:any)
+  {
+    return new Promise(resolve => {
+ 
+      this.http.get(this.api + '/orders/'+id, {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+      }).subscribe(data => {
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
 }

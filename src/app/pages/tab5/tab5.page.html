@@ -1,9 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>tab5</ion-title>
+    <ion-title>Pedidos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-list>
+      <ion-card *ngFor="let pedido of pedidos.data">
+        <ion-item>
+          <ion-icon name="pin" slot="start"></ion-icon>
+          <ion-label>{{pedido.id}}</ion-label>
+          <ion-button fill="outline" slot="end">View</ion-button>
+        </ion-item>
+  </ion-list>
 
 </ion-content>
