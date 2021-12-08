@@ -275,29 +275,34 @@ export class RestService {
     });
   }
 
-  obtenerPedidos(token)
+  obtenerPedidos()
   {
     return new Promise(resolve => {
  
-      this.http.get(this.api + '/orders/', {
+      this.http.get(this.api + '/orders', {
         // para crearnos la cabecera
-        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
         resolve(data);
+        console.log(data)
       }, err => {
         console.log('Error, '+err);
       });
     });
   }
 
-  obtenerDatosArt(token,id:any)
+  obtenerDatosArt(id:any)
   {
     return new Promise(resolve => {
- 
-      this.http.get(this.api + '/orders/'+id, {
+      this.http.post(this.api + '/mostrarArt',
+      {
+        id : id,
+      },
+      {
         // para crearnos la cabecera
-        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
+        console.log(data)
         resolve(data);
       }, err => {
         console.log('Error, '+err);

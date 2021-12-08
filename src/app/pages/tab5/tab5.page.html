@@ -7,12 +7,21 @@
 <ion-content>
 
   <ion-list>
-      <ion-card *ngFor="let pedido of pedidos.data">
-        <ion-item>
-          <ion-icon name="pin" slot="start"></ion-icon>
-          <ion-label>{{pedido.id}}</ion-label>
-          <ion-button fill="outline" slot="end">View</ion-button>
-        </ion-item>
+    <ion-card *ngFor="let pedido of pedidos.data" (click)="abrirmodalDatosArticulos()">
+      <ion-card-header>
+        <ion-card-title>Pedido {{pedido.num}}</ion-card-title>
+        <ion-card-subtitle>Compañia : {{pedido.target_company_name}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        Fecha de expedicion {{pedido.created_at}}
+        Fecha de entrega {{pedido.issuedate}}
+      </ion-card-content>
+      </ion-card>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>
