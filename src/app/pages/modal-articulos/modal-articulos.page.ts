@@ -3,8 +3,6 @@ import { FormControl } from '@angular/forms';
 import { IonSearchbar,LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { ModalPrecioPage } from '../modal-precio/modal-precio.page';
-import { Tab4PageModule } from '../tab4/tab4.module';
-import { Tab4Page } from '../tab4/tab4.page';
 
 @Component({
   selector: 'app-modal-articulos',

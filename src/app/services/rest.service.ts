@@ -294,7 +294,7 @@ export class RestService {
   obtenerDatosArt(id:any)
   {
     return new Promise(resolve => {
-      this.http.post(this.api + '/mostrarArt',
+      this.http.post(this.api + '/mostrarArt/'+id,
       {
         id : id,
       },

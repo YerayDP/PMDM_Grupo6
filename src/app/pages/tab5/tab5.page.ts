@@ -14,6 +14,7 @@ export class Tab5Page implements OnInit {
   pedidos: any = [];
   id:any;
   articulo:any;
+  company:any;
 
   constructor(private restService: RestService, private loadingCtrl: LoadingController,private modalCtrl: ModalController) { }
 
@@ -36,37 +37,10 @@ export class Tab5Page implements OnInit {
     loading.present();
     setTimeout(() => {
       loading.dismiss();
+      this.company=this.restService.company_id;
       this.verPedidos();
     }, 500 );
  }
-
-  datos(id)
-  {
-    this.restService.obtenerDatosArt(id)
-    .then(data => {
-      this.articulo = data;
-  });  
-  }
-
-  async abrirmodalDatosArticulos()
-  {
-    const art=this.articulo;
-   const modal = await this.modalCtrl.create({
-     component: ModalDatosArtPage,
-     componentProps: {
-      art
-     }
-   });
-
-   await modal.present();
-
-   const { data } = await modal.onDidDismiss();
-
-   this.showLoading();
-
-   console.log(art);
-  }
-
   loadData(event) {
     setTimeout(() => {
       console.log('Done');
