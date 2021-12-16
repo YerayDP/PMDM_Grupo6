@@ -51,9 +51,6 @@ const routes: Routes = [
   {
     path: 'tabs-u',
     loadChildren: () => import('./pages/tabs-u/tabs-u.module').then( m => m.TabsUPageModule)
-  },  {
-    path: 'modal-datos-art',
-    loadChildren: () => import('./pages/modal-datos-art/modal-datos-art.module').then( m => m.ModalDatosArtPageModule)
   },
 
 

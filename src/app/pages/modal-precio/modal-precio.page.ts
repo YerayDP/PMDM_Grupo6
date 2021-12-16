@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 
 @Component({
@@ -14,14 +14,33 @@ export class ModalPrecioPage implements OnInit {
 
   precio_min : any;
   precio_max : any;
-  
-  precio:any;
+  familia : any;
+  precio : any;
+  precioFin : any;
+  Fprofit : any;
 
-  constructor(private modalCtrl: ModalController, private restService: RestService, private router: Router) { }
+  constructor(private modalCtrl: ModalController, private restService: RestService, private router: Router, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
+    
+    this.showLoading();
     this.precio_min = this.producto.price_min;
     this.precio_max = this.producto.price_max;
+  }
+
+  obtenerprofit()
+  {
+    for(let i = 0; i < this.restService.familias.data.length;i++)
+    {
+      if(this.producto.family_id=this.restService.familias.data[i].id)
+      {
+      var f = this.restService.familias.data[i];
+      this.familia=f;
+      this.Fprofit=this.familia;
+      }
+    }
+    this.precioFin=this.precio*11;
+    console.log(this.precioFin);
   }
 
   salirSinArgumentos()
@@ -36,10 +55,21 @@ export class ModalPrecioPage implements OnInit {
     console.log(this.precio);
     console.log(this.producto.family_id);
     console.log(this.restService.company_id);
-    this.router.navigate(['/tab4'])
+    this.router.navigate(['/tabs-u/tab4'])
     this.modalCtrl.dismiss({
       
     });
   }
+
+  async showLoading() {
+    const loading = await this.loadingCtrl.create({  
+    message: 'Loading.....'
+    });  
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.obtenerprofit();
+    }, 500 );
+ }
   
 }

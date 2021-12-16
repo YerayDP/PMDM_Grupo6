@@ -18,6 +18,8 @@ export class RestService {
   articulosS: any;
   numProductos: any;
   productosS: any;
+  familias: any;
+  company : any;
 
 
 
@@ -38,9 +40,10 @@ export class RestService {
           this.company_id = data.data.company_id;
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
-
+          this.user();
           resolve(this.token);
           this.obtenerArticulos(this.token);
+          this.obtenerDatosF();
         });
     });
   }
@@ -182,13 +185,13 @@ export class RestService {
       
   }
 
-  user(token,id)
+  user()
   {
     return new Promise(resolve => {
-      this.http.get(this.api + '/user/'+id,
+      this.http.get(this.api + '/user/'+170,
       {
         // para crearnos la cabecera
-        headers: new HttpHeaders().set('Authorization','Bearer '+token)
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
         this.currentUser = data;
         console.log(data);
@@ -304,6 +307,21 @@ export class RestService {
       }).subscribe(data => {
         console.log(data)
         resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+
+  obtenerDatosF()
+  {
+    return new Promise(resolve => {
+ 
+      this.http.get(this.api + '/families'
+      ).subscribe(data => {
+        this.familias=data;
+        resolve(data);
+        console.log(data)
       }, err => {
         console.log('Error, '+err);
       });

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
-import { ModalDatosArtPage } from '../modal-datos-art/modal-datos-art.page';
 
 @Component({
   selector: 'app-tab5',
@@ -20,6 +19,8 @@ export class Tab5Page implements OnInit {
 
   ngOnInit() {
     this.showLoading();
+    this.company=this.restService.currentUser.company;
+    console.log(this.company);
   }
 
   verPedidos()
@@ -41,6 +42,8 @@ export class Tab5Page implements OnInit {
       this.verPedidos();
     }, 500 );
  }
+
+ 
   loadData(event) {
     setTimeout(() => {
       console.log('Done');
