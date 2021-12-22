@@ -11,6 +11,7 @@ export class Tab5Page implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   pedidos: any = [];
+  pedidosFin: any = [];
   id:any;
   articulo:any;
   company:any;
@@ -19,8 +20,10 @@ export class Tab5Page implements OnInit {
 
   ngOnInit() {
     this.showLoading();
-    this.company=this.restService.currentUser.company;
+    this.company=this.restService.currentUser.data.company;
+    console.log(this.restService.currentUser);
     console.log(this.company);
+    console.log(this.pedidos);
   }
 
   verPedidos()
@@ -28,7 +31,27 @@ export class Tab5Page implements OnInit {
       this.restService.obtenerPedidos()
       .then(data => {
         this.pedidos = data;
-    });  
+        console.log(this.pedidos.data.length);
+        console.log(this.pedidos.data[1].target_company_name);
+        //this.pedidosFin.push(this.pedidos.data[1].target_company_name)
+
+        for(let i = 0; i<this.pedidos.data.length;i++)
+        {
+          console.log(this.pedidos.data[i].target_company_name);
+          var c = this.pedidos.data[i].target_company_name;
+          console.log(c)
+          console.log(this.company)
+          if(c===this.restService.currentUser.data.company)
+          {
+          //console.log(c);
+          this.pedidosFin.push(this.pedidos.data[i]);
+          }
+        }
+        console.log(this.pedidosFin);
+
+    });
+   
+    
   }
 
   async showLoading() {
