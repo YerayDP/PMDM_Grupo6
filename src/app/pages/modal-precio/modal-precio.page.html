@@ -14,7 +14,7 @@
 </form>
 <ion-label>&nbsp;&nbsp;&nbsp;(Entre {{precio_min}} y {{precio_max}})</ion-label>
 
-<div *ngIf="precioFin <= precio_max && precio >= precio_min ; else conditionFalse">
+<div *ngIf="precio <= precio_max && precio >= precio_min ; else conditionFalse">
       <p class="ion-text-center">
         <ion-button color="primary" expand="full" (click)="salirConArgumentos()">Aceptar</ion-button>
       </p>

@@ -20,6 +20,7 @@ export class RestService {
   productosS: any;
   familias: any;
   company : any;
+  listCompanies: any;
 
 
 
@@ -44,6 +45,7 @@ export class RestService {
           resolve(this.token);
           this.obtenerArticulos(this.token);
           this.obtenerDatosF();
+          this.companies();
         });
     });
   }
@@ -174,8 +176,9 @@ export class RestService {
   companies()
   {
     return new Promise(resolve => {
-      this.http.get(this.api + '/companies/',
+      this.http.get(this.api + '/companies',
       ).subscribe(data => {
+        this.listCompanies=data;
         console.log(data)
         resolve(data);
       }, err => {
@@ -202,7 +205,7 @@ export class RestService {
     });
   }
 
-  obtenerProductos(company_id:any)
+  async obtenerProductos(company_id:any): Promise<any>
   {
     return new Promise(resolve => {
  
@@ -214,9 +217,9 @@ export class RestService {
         // para crearnos la cabecera
         headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
       }).subscribe(data => {
-        resolve(data);
+        resolve(data); 
         this.productosS=data
-        console.log(data);
+        //console.log(data);
       }, err => {
         console.log('Error, '+err);
       });
@@ -328,4 +331,27 @@ export class RestService {
     });
   }
 
+  añadirPedido(num:any, issue_date:any, origin_company_id:any, target_company_id:any, products:any)
+  {
+    return new Promise(resolve => {
+      this.http.post(this.api + '/orders',
+      {
+        num : num,
+        issue_date: issue_date,
+        origin_company_id: origin_company_id,
+        target_company_id: target_company_id,
+        products: products
+      },
+      {
+        // para crearnos la cabecera
+        headers: new HttpHeaders().set('Authorization','Bearer '+this.token)
+      }).subscribe(data => {
+        console.log(data)
+        resolve(data);
+      }, err => {
+        console.log('Error, '+err);
+      });
+    });
+  }
+  
 }

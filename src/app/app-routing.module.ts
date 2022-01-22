@@ -51,7 +51,19 @@ const routes: Routes = [
   {
     path: 'tabs-u',
     loadChildren: () => import('./pages/tabs-u/tabs-u.module').then( m => m.TabsUPageModule)
+  },  {
+    path: 'modal-hacer-pedido',
+    loadChildren: () => import('./pages/modal-hacer-pedido/modal-hacer-pedido.module').then( m => m.ModalHacerPedidoPageModule)
   },
+  {
+    path: 'modal-elegir-empresa',
+    loadChildren: () => import('./pages/modal-elegir-empresa/modal-elegir-empresa.module').then( m => m.ModalElegirEmpresaPageModule)
+  },
+  {
+    path: 'modal-elegir-empresa',
+    loadChildren: () => import('./pages/modal-elegir-empresa/modal-elegir-empresa.module').then( m => m.ModalElegirEmpresaPageModule)
+  },
+
 
 
 

@@ -7,7 +7,7 @@
 <ion-content>
 
   <ion-list>
-    <ion-card *ngFor="let pedido of pedidosFin">
+    <ion-card *ngFor="let pedido of pedidos.data">
       <ion-card-header>
         <ion-card-title><strong>Pedido {{pedido.num}}</strong></ion-card-title>
         <ion-card-subtitle>Compañia : {{pedido.target_company_name}}</ion-card-subtitle>
@@ -34,5 +34,11 @@
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando mas pedidos...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [disabled]="isDisable" (click)="abrirmodalElegirEmpresa()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

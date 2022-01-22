@@ -97,9 +97,7 @@ export class ModalArticulosPage implements OnInit {
       this.obtenerArticulos();
       loading.dismiss();
     }, 500 );
-    
-
- }
+   }
 
  rellenar()
  {

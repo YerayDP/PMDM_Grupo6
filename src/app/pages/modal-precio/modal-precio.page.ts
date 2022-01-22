@@ -55,7 +55,7 @@ export class ModalPrecioPage implements OnInit {
     console.log(this.precio);
     console.log(this.producto.family_id);
     console.log(this.restService.company_id);
-    this.router.navigate(['/tabs-u/tab4'])
+    //this.router.navigate(['/tabs-u/tab4'])
     this.modalCtrl.dismiss({
       
     });

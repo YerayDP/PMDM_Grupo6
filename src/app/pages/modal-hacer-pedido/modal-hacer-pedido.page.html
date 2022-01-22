@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Haciendo pedido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <div *ngFor="let producto of productosS ; let i = index;">
+        <ion-item >
+          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-label>{{producto.compamy_description}}</ion-label>
+          <ion-button slot="end" size="small" (click)="restar(producto.article_id)"><ion-icon name="remove"></ion-icon></ion-button>
+          <ion-label slot="end">{{cantidades[i][1]}}</ion-label>
+          <ion-button slot="end" size="small" (click)="sumar(producto.article_id)"><ion-icon name="add"></ion-icon></ion-button>
+        </ion-item>
+    </div>
+      </ion-list>
+
+  <ion-button (click)="hacerPedido()"><ion-icon name="cart-outline"></ion-icon></ion-button>
+
+</ion-content>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll, LoadingController, ModalController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
+import { ModalElegirEmpresaPage } from '../modal-elegir-empresa/modal-elegir-empresa.page';
 
 @Component({
   selector: 'app-tab5',
@@ -15,15 +16,16 @@ export class Tab5Page implements OnInit {
   id:any;
   articulo:any;
   company:any;
+  empresas: any = [];
 
   constructor(private restService: RestService, private loadingCtrl: LoadingController,private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.showLoading();
     this.company=this.restService.currentUser.data.company;
-    console.log(this.restService.currentUser);
-    console.log(this.company);
-    console.log(this.pedidos);
+    //console.log(this.restService.currentUser);
+    //console.log(this.company);
+    //console.log(this.pedidos);
   }
 
   verPedidos()
@@ -31,23 +33,23 @@ export class Tab5Page implements OnInit {
       this.restService.obtenerPedidos()
       .then(data => {
         this.pedidos = data;
-        console.log(this.pedidos.data.length);
-        console.log(this.pedidos.data[1].target_company_name);
+        //console.log(this.pedidos.data.length);
+        //console.log(this.pedidos.data[1].target_company_name);
         //this.pedidosFin.push(this.pedidos.data[1].target_company_name)
 
         for(let i = 0; i<this.pedidos.data.length;i++)
         {
-          console.log(this.pedidos.data[i].target_company_name);
+          //console.log(this.pedidos.data[i].target_company_name);
           var c = this.pedidos.data[i].target_company_name;
-          console.log(c)
-          console.log(this.company)
+          //console.log(c)
+          //console.log(this.company)
           if(c===this.restService.currentUser.data.company)
           {
           //console.log(c);
           this.pedidosFin.push(this.pedidos.data[i]);
           }
         }
-        console.log(this.pedidosFin);
+        //console.log(this.pedidosFin);
 
     });
    
@@ -55,7 +57,7 @@ export class Tab5Page implements OnInit {
   }
 
   async showLoading() {
-    const loading = await this.loadingCtrl.create({  
+    const loading = await this.loadingCtrl.create({
     message: 'Loading.....'
     });  
     loading.present();
@@ -78,6 +80,22 @@ export class Tab5Page implements OnInit {
 
     event.target.complete();
    }, 1000);
+ }
+
+ async abrirmodalElegirEmpresa()
+ {
+  const modal = await this.modalCtrl.create({
+    component: ModalElegirEmpresaPage,
+    componentProps: {
+      
+    }
+  });
+
+  await modal.present();
+
+  const { data } = await modal.onDidDismiss();
+  //console.log(data);
+  //this.showLoading();
  }
 
 }
