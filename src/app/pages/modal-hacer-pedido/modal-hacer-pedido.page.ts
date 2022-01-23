@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
+import { EmailComposer } from '@ionic-native/email-composer/ngx';
+
+import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+
 
 @Component({
   selector: 'app-modal-hacer-pedido',
@@ -15,13 +19,13 @@ export class ModalHacerPedidoPage implements OnInit {
   cantidades: any[][] = [];
   contador: any = 0;
   ps: any;
-  myDate: String = new Date().toISOString();
+  content: string;
   
-  constructor(private restService: RestService, private loadingCtrl: LoadingController) { }
+  constructor(private restService: RestService, private loadingCtrl: LoadingController,private emailComposer: EmailComposer, private pdfGenerator: PDFGenerator) { }
 
   ngOnInit() {
     this.showLoading();
-    //console.log(this.c);
+    console.log(this.c);
     //console.log(this.productosS);
 
     for(let i = 0; i<this.productos.length;i++)
@@ -42,12 +46,7 @@ export class ModalHacerPedidoPage implements OnInit {
  }
 
  llenar()
- {
-  interface P {
-    id : any;
-    cantidad: any;
-   }
-  
+ {  
   for(let i = 0; i<this.productosS.length;i++)
   {
     console.log("Entrando")
@@ -90,8 +89,38 @@ export class ModalHacerPedidoPage implements OnInit {
  }
 
  hacerPedido()
- {
-   this.restService.añadirPedido('001','2021-12-22',this.restService.company_id,2,'1,1');
+  {
+    var commaSeperatedString = this.cantidades.toString();
+    console.log(commaSeperatedString);
+   this.restService.añadirPedido('001','2022/01/22',this.restService.company_id,1,commaSeperatedString);
+  }
+
+  enviarCorreo()
+  {
+    let email = {
+      to: 'pablo00dm00@gmail.com',
+      subject: 'Cordova Icons',
+      body: 'How are you? Nice greetings from Leipzig',
+    }
+    // Send a text message using default options
+    //this.emailComposer.open(email);
+    
+  }
+
+  createPdf() 
+  {
+      let options = {
+        documentSize: 'A4',
+        type: 'share',
+        // landscape: 'portrait',
+        fileName: 'Order-Invoice.pdf'
+      };
+      this.pdfGenerator.fromData(this.content, options)
+        .then((base64) => {
+          console.log('OK', base64);
+        }).catch((error) => {
+          console.log('error', error);
+        });
   }
 
 }

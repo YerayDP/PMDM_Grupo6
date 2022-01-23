@@ -53,7 +53,7 @@ export class ModalElegirEmpresaPage implements OnInit {
     });
 
 
-    this.restService.obtenerProductos(2)
+    this.restService.obtenerProductos(1)
       .then(data => {
         this.Susproductos = data['data'];
         
