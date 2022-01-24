@@ -7,9 +7,9 @@
 <ion-content>
 
   <ion-list>
-    <div *ngFor="let producto of productosS ; let i = index;">
+    <div id="id" *ngFor="let producto of productosS ; let i = index;">
         <ion-item >
-          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-checkbox slot="start" (ionChange)="selectProductos($event, producto[i],producto[2],i)"></ion-checkbox>
           <ion-label>{{producto.compamy_description}}</ion-label>
           <ion-button slot="end" size="small" (click)="restar(producto.article_id)"><ion-icon name="remove"></ion-icon></ion-button>
           <ion-label slot="end">{{cantidades[i][1]}}</ion-label>
@@ -18,6 +18,6 @@
     </div>
       </ion-list>
 
-  <ion-button (click)="createPdf()"><ion-icon name="cart-outline"></ion-icon></ion-button>
+  <ion-button (click)="hacerPedido()"><ion-icon name="cart-outline"></ion-icon></ion-button>
 
 </ion-content>

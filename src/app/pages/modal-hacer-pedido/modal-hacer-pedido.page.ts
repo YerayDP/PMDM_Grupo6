@@ -16,17 +16,18 @@ export class ModalHacerPedidoPage implements OnInit {
   @Input() c : any;
   @Input() productosS : any;
   productos: any[] = [];
-  cantidades: any[][] = [];
+  cantidades: any[] = [];
   contador: any = 0;
   ps: any;
-  content: string;
+  idArticulo: any;
+  seleccionado: any;
+  pedido: any[] = [];
   
   constructor(private restService: RestService, private loadingCtrl: LoadingController,private emailComposer: EmailComposer, private pdfGenerator: PDFGenerator) { }
 
   ngOnInit() {
     this.showLoading();
     console.log(this.c);
-    //console.log(this.productosS);
 
     for(let i = 0; i<this.productos.length;i++)
     {
@@ -46,30 +47,65 @@ export class ModalHacerPedidoPage implements OnInit {
  }
 
  llenar()
- {  
+ {
   for(let i = 0; i<this.productosS.length;i++)
   {
     console.log("Entrando")
-    this.cantidades.push([this.productosS[i].article_id,0]);
+    this.cantidades.push([this.productosS[i].article_id,0,false]);
     console.log("Saliendo")
   }
   console.log(this.cantidades);
  }
 
+ selectProductos(articulo, idArticulo,productoSeleccion,indice) {
+
+  if (articulo.target.checked === true) {
+    console.log(productoSeleccion);
+    this.seleccionado=articulo.detail.checked;
+    console.log(this.seleccionado);
+    console.log(indice);
+    this.idArticulo=idArticulo;
+    console.log(this.idArticulo);
+    this.cantidades[indice][2]=this.seleccionado;// aquí está la clave de todo el asunto
+    console.log('Artículo seleccionado: '+articulo.detail.value);
+    console.log('Id del artículo deseleccionado: '+idArticulo);
+    console.log('Select: '+this.cantidades[indice][2]);// para imprimir el select de la condición
+    for (let i = 0; i < this.cantidades?.length; i++){
+      if(this.cantidades[i][2]==true){
+        this.seleccionado=true;
+      }
+    }      
+  }
+  else {
+    console.log(productoSeleccion);
+    this.seleccionado=articulo.detail.checked;
+    console.log(this.seleccionado);
+    console.log(indice);
+    this.cantidades[indice][2]=this.seleccionado;
+    this.idArticulo=idArticulo;
+    this.seleccionado = articulo.detail.checked;
+    console.log('Artículo deseleccionado: '+articulo.detail.value);
+    console.log('Id del artículo seleccionado: '+idArticulo);
+    console.log('Select: '+this.cantidades[indice][2]);
+    for (let i = 0; i < this.cantidades?.length; i++){
+      if(this.cantidades[i][2]==true){
+        this.seleccionado=true;
+      }
+    } 
+    
+  }
+}
+
  sumar(id:any)
  {
-  if(this.contador!=20)
-  {
-    for(let i=0; i<this.cantidades.length; i++) 
+    for(let i=0; i<this.cantidades.length; i++)
     {
-
-      if(this.cantidades[i][0]===id)
-      {
-        this.cantidades[i][1]+=1;
-        console.log(this.cantidades);
-      }
+        if(this.cantidades[i][0]===id)
+        {
+          this.cantidades[i][1]++;
+          console.log(this.cantidades);
+        }
     }
-  }
  }
 
  restar(id:any)
@@ -77,11 +113,11 @@ export class ModalHacerPedidoPage implements OnInit {
 
   if(this.contador!=0)
   {
-    for(let i=0; i<this.cantidades.length; i++) 
+    for(let i=0; i<this.cantidades.length; i++)
     {
       if(this.cantidades[i][0]===id)
       {
-        this.cantidades[i][1]+=1;
+        this.cantidades[i][1]--;
         console.log(this.cantidades);
       }
     }
@@ -90,9 +126,25 @@ export class ModalHacerPedidoPage implements OnInit {
 
  hacerPedido()
   {
-    var commaSeperatedString = this.cantidades.toString();
+    for(let i=0; i<this.cantidades.length; i++)
+    {
+      for(let j =0; j<2; j++)
+      {
+        if(this.cantidades[i][2] === true)
+        {
+          this.pedido.push(this.cantidades[i][j]);
+        }
+      }
+    }
+
+    console.log(this.pedido);
+
+    var num = Math.floor(Math.random() * 100);
+
+    var commaSeperatedString = this.pedido.toString();
+
     console.log(commaSeperatedString);
-   this.restService.añadirPedido('001','2022/01/22',this.restService.company_id,1,commaSeperatedString);
+   this.restService.añadirPedido(num,'2022-01-22',this.restService.company_id,1,commaSeperatedString);
   }
 
   enviarCorreo()
@@ -109,18 +161,7 @@ export class ModalHacerPedidoPage implements OnInit {
 
   createPdf() 
   {
-      let options = {
-        documentSize: 'A4',
-        type: 'share',
-        // landscape: 'portrait',
-        fileName: 'Order-Invoice.pdf'
-      };
-      this.pdfGenerator.fromData(this.content, options)
-        .then((base64) => {
-          console.log('OK', base64);
-        }).catch((error) => {
-          console.log('error', error);
-        });
+
   }
 
 }
