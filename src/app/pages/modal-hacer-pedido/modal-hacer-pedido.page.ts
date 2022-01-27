@@ -1,9 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController, Platform } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 
-import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 
 
 @Component({
@@ -22,10 +29,26 @@ export class ModalHacerPedidoPage implements OnInit {
   idArticulo: any;
   seleccionado: any;
   pedido: any[] = [];
+  pdfObj: any;
+  DatosCompany: any[] = [];
+  listCompany2: any[] = [];
+  num:any;
+  fecha: any;
+  lista: any[] = [];
+  docDefinition: any;
   
-  constructor(private restService: RestService, private loadingCtrl: LoadingController,private emailComposer: EmailComposer, private pdfGenerator: PDFGenerator) { }
+  constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController,
+    public file: File,
+    public FileOpener: FileOpener,
+    public platform: Platform,
+    private emailComposer: EmailComposer
+    ) { }
 
   ngOnInit() {
+    this.fecha = '2022-01-25';
+    this.num = Math.floor(Math.random() * 100);
+    console.log(this.restService.company);
+    console.log(this.restService.company_id);
     this.showLoading();
     console.log(this.c);
 
@@ -137,31 +160,112 @@ export class ModalHacerPedidoPage implements OnInit {
       }
     }
 
-    console.log(this.pedido);
+    
+    for(let i=0; i<this.productosS.length; i++)
+    {
+      console.log(this.productosS);
+      console.log(this.cantidades[i][0]);
+      if(this.productosS[i].article_id === this.cantidades[i][0] && this.cantidades[i][2] === true)
+      this.lista.push(this.productosS[i]);
+    }
 
-    var num = Math.floor(Math.random() * 100);
+    console.log(this.lista);
+    console.log(this.pedido);
 
     var commaSeperatedString = this.pedido.toString();
 
     console.log(commaSeperatedString);
-   this.restService.añadirPedido(num,'2022-01-22',this.restService.company_id,1,commaSeperatedString);
+    this.restService.añadirPedido(this.num,this.fecha,this.restService.company_id,1,commaSeperatedString);
+
+    this.createPdf()
   }
 
-  enviarCorreo()
+
+
+  createPdf() 
+  {
+    this.listCompany2 = this.restService.listCompanies.data;
+    console.log(this.listCompany2);
+    for(let i=0; i<this.listCompany2.length; i++)
+    {
+      console.log(this.listCompany2);
+      console.log(this.restService.company_id);
+      if(this.listCompany2[i]['id']===this.restService.company_id)
+      {
+        this.DatosCompany.push(this.listCompany2[i])
+      }
+    }
+    console.log(this.c);
+    console.log(this.DatosCompany);
+
+    
+    alert('PDF Generado');
+
+      this.docDefinition = {
+      content: [
+        'Pedido',
+		{
+			style: 'tableExample',
+			table: {
+				heights: 80,
+				body: [
+					[this.DatosCompany[0]['name']+"\n"+"\n"+
+          this.DatosCompany[0]['address']+"\n"+"\n"+
+          this.DatosCompany[0]['city']+"\n"+"\n"+
+          this.DatosCompany[0]['cif']+"\n"+"\n"+
+          this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
+                                          'Fecha '+this.fecha],
+					['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
+          'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
+          'Transporte:   A nuestro cargo'+"\n"+"\n"+
+          'Forma de pago: En efectivo'+"\n"+"\n"+
+          'Condiciones de entrega: ', ''],
+          [this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.cantidades[0][1]+'       '+this.lista[0]['price']+'       24,56'],
+          ['Total                                                                               ','40']
+          
+					
+				]
+			}
+		},
+      ]
+    };
+    this.pdfObj = pdfMake.createPdf(this.docDefinition);
+    this.pdfObj.download();
+  }
+
+
+  openPdf()
+  {
+    this.pdfObj = pdfMake.createPdf(this.docDefinition);
+    if(this.platform.is('cordova')){
+      pdfMake.createPdf(this.docDefinition).getBlob(buffer => {
+        this.file.resolveDirectoryUrl(this.file.cacheDirectory)
+        .then(dirEntry => {
+          this.file.getFile(dirEntry, 'test1.pdf', { create: true})
+            .then(fileEntry => {
+              fileEntry.createWriter(writer => {
+                writer.onwrite = () => {
+                  this.FileOpener.open(fileEntry.toURL(), 'application/pdf');
+                }
+                writer.write(buffer);
+              })
+            })
+        });
+
+      });
+    }
+  }
+
+  enviarMail()
   {
     let email = {
       to: 'pablo00dm00@gmail.com',
       subject: 'Cordova Icons',
       body: 'How are you? Nice greetings from Leipzig',
     }
-    // Send a text message using default options
-    //this.emailComposer.open(email);
     
-  }
-
-  createPdf() 
-  {
-
+    // Send a text message using default options
+    this.emailComposer.open(email);
   }
 
 }

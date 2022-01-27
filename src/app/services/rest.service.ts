@@ -39,6 +39,7 @@ export class RestService {
           this.userLogged = data.data.type;
           this.checkActived = data.data.actived;
           this.company_id = data.data.company_id;
+          this.company = data.data.company;
           this.token = data.data.token;// para guardar solamente el token
           console.log(data);
           this.user();

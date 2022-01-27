@@ -9,13 +9,11 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalArticulosPageModule } from './pages/modal-articulos/modal-articulos.module';
-import { EmailComposer } from '@ionic-native/email-composer/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 
-//import { File } from '@ionic-native/file/ngx';
-//import { FileOpener } from '@ionic-native/file-opener/ngx';
-import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
+import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,9 +28,9 @@ import { PDFGenerator } from '@ionic-native/pdf-generator/ngx';
     ReactiveFormsModule,
   ],
   providers: [
-    PDFGenerator,
     EmailComposer,
-    AndroidPermissions,
+    File,
+    FileOpener,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
      ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
