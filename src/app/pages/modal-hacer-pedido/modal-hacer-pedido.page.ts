@@ -133,9 +133,6 @@ export class ModalHacerPedidoPage implements OnInit {
 
  restar(id:any)
  {
-
-  if(this.contador!=0)
-  {
     for(let i=0; i<this.cantidades.length; i++)
     {
       if(this.cantidades[i][0]===id)
@@ -144,7 +141,6 @@ export class ModalHacerPedidoPage implements OnInit {
         console.log(this.cantidades);
       }
     }
-  }
  }
 
  hacerPedido()
@@ -177,7 +173,9 @@ export class ModalHacerPedidoPage implements OnInit {
     console.log(commaSeperatedString);
     this.restService.añadirPedido(this.num,this.fecha,this.restService.company_id,1,commaSeperatedString);
 
-    this.createPdf()
+    this.createPdf();
+    this.openPdf();
+    this.enviarMail();
   }
 
 
@@ -260,8 +258,11 @@ export class ModalHacerPedidoPage implements OnInit {
   {
     let email = {
       to: 'pablo00dm00@gmail.com',
-      subject: 'Cordova Icons',
-      body: 'How are you? Nice greetings from Leipzig',
+      subject: 'AlmaGest',
+      body: 'Informe sobre pedido realizado',
+      attachments: [
+        this.docDefinition
+      ],
     }
     
     // Send a text message using default options
