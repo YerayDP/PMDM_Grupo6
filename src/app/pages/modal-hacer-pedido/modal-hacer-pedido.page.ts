@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoadingController, ModalController, Platform } from '@ionic/angular';
+import { LoadingController, ModalController, Platform, AlertController } from '@ionic/angular';
 import { RestService } from 'src/app/services/rest.service';
 import { EmailComposer } from '@awesome-cordova-plugins/email-composer/ngx';
 
@@ -37,7 +37,7 @@ export class ModalHacerPedidoPage implements OnInit {
   lista: any[] = [];
   docDefinition: any;
   
-  constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController,
+  constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController,private alertCtrl: AlertController,
     public file: File,
     public FileOpener: FileOpener,
     public platform: Platform,
@@ -171,7 +171,7 @@ export class ModalHacerPedidoPage implements OnInit {
     var commaSeperatedString = this.pedido.toString();
 
     console.log(commaSeperatedString);
-    this.restService.añadirPedido(this.num,this.fecha,this.restService.company_id,1,commaSeperatedString);
+    this.restService.añadirPedido(this.num,this.fecha,this.restService.company_id,this.c,commaSeperatedString);
 
     this.createPdf();
     this.openPdf();
@@ -205,7 +205,7 @@ export class ModalHacerPedidoPage implements OnInit {
 		{
 			style: 'tableExample',
 			table: {
-				heights: 80,
+				heights: 10,
 				body: [
 					[this.DatosCompany[0]['name']+"\n"+"\n"+
           this.DatosCompany[0]['address']+"\n"+"\n"+
@@ -218,10 +218,9 @@ export class ModalHacerPedidoPage implements OnInit {
           'Transporte:   A nuestro cargo'+"\n"+"\n"+
           'Forma de pago: En efectivo'+"\n"+"\n"+
           'Condiciones de entrega: ', ''],
-          [this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.cantidades[0][1]+'       '+this.lista[0]['price']+'       24,56'],
-          ['Total                                                                               ','40']
-          
-					
+          [this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.cantidades[0][1]+'       '+this.lista[0]['price']],
+          ['Total                                                                   ','                                                  40 €'],
+          ['Aceptado por','']
 				]
 			}
 		},
@@ -234,39 +233,55 @@ export class ModalHacerPedidoPage implements OnInit {
 
   openPdf()
   {
-    this.pdfObj = pdfMake.createPdf(this.docDefinition);
     if(this.platform.is('cordova')){
       pdfMake.createPdf(this.docDefinition).getBlob(buffer => {
-        this.file.resolveDirectoryUrl(this.file.cacheDirectory)
-        .then(dirEntry => {
-          this.file.getFile(dirEntry, 'test1.pdf', { create: true})
-            .then(fileEntry => {
-              fileEntry.createWriter(writer => {
-                writer.onwrite = () => {
-                  this.FileOpener.open(fileEntry.toURL(), 'application/pdf');
-                }
-                writer.write(buffer);
+        this.file.resolveDirectoryUrl(this.file.dataDirectory)
+          .then(dirEntry => {
+            this.file.getFile(dirEntry, 'test1.pdf', { create: true })
+              .then(fileEntry => {
+                fileEntry.createWriter(writer => {
+                  writer.onwrite = () => {
+                    this.FileOpener.open(fileEntry.toURL(), 'application/pdf')
+                      .then(res => { })
+                      .catch(async err => {
+                        const alert = this.alertCtrl.create({ message: err.message, buttons: ['Ok'] });
+                        (await alert).present();
+                      });
+                  }
+                  writer.write(buffer);
+                  alert(this.file.dataDirectory);
+                })
               })
-            })
-        });
-
+              .catch(async err => {
+                const alert = this.alertCtrl.create({ message: err, buttons: ['Ok'] });
+                (await alert).present();
+              });
+          })
+          .catch(async err => {
+            const alert = this.alertCtrl.create({ message: err, buttons: ['Ok'] });
+            (await alert).present();
+          });
+  
       });
+    }else{
+      this.docDefinition.download();
     }
+      this.enviarMail();
   }
 
   enviarMail()
   {
-    let email = {
-      to: 'pablo00dm00@gmail.com',
-      subject: 'AlmaGest',
-      body: 'Informe sobre pedido realizado',
-      attachments: [
-        this.docDefinition
-      ],
-    }
-    
-    // Send a text message using default options
-    this.emailComposer.open(email);
+    //console.log(this.email_confirmed);
+      let mail = {
+        to: 'pablo00dm00@gmail.com',
+        attachments: [
+          'file:///data/user/0/io.ionic.starter/files/test1.pdf'
+        ],
+        subject: 'Pedido',
+        body: 'Informe del ultimo pedido',
+        isHtml: true
+      };
+      this.emailComposer.open(mail);
   }
 
 }

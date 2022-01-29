@@ -9,7 +9,7 @@
   <ion-item>
     <ion-label>Empresa</ion-label>
     <ion-select [(ngModel)]="company_id" (ionChange)="abrirmodalPedido()">
-      <ion-select-option *ngFor="let empresa of empresasF" value="{{ empresa.name }}" (ionSelect)="abrirmodalPedido()">{{empresa.name}}</ion-select-option>
+      <ion-select-option *ngFor="let empresa of empresasF" value="{{ empresa.id }}" (ionSelect)="abrirmodalPedido()">{{empresa.name}}</ion-select-option>
     </ion-select>
   </ion-item>
 
