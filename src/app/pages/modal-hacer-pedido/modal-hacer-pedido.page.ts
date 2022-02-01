@@ -50,15 +50,14 @@ export class ModalHacerPedidoPage implements OnInit {
   ngOnInit() {
     this.encontrarEmail();
     this.showLoading2();
-    console.log(this.usuarios);
+    console.log(this.restService.usuarios);
     this.fecha = '2022-01-25';
     this.num = Math.floor(Math.random() * 100);
-    console.log(this.restService.company);
+    //console.log(this.restService.company);
     console.log(this.restService.company_id);
     this.showLoading();
     console.log(this.c);
-    console.log(this.usuarios);
-
+    
     for(let i = 0; i<this.productos.length;i++)
     {
       console.log(this.productos[i]+','+this.cantidades[i]);
@@ -87,7 +86,7 @@ export class ModalHacerPedidoPage implements OnInit {
     }, 500 );
   }
 
-  async encontrarEmail() 
+  async encontrarEmail()
   {
     for(let i = 0; i<this.restService.usuarios.length;i++)
     {
@@ -180,7 +179,7 @@ export class ModalHacerPedidoPage implements OnInit {
     {
       for(let j =0; j<2; j++)
       {
-        if(this.cantidades[i][2] === true)
+        if(this.cantidades[i][2] === true && this.cantidades[i][1]>0)
         {
           this.pedido.push(this.cantidades[i][j]);
         }
@@ -192,8 +191,11 @@ export class ModalHacerPedidoPage implements OnInit {
     {
       console.log(this.productosS);
       console.log(this.cantidades[i][0]);
-      if(this.productosS[i].article_id === this.cantidades[i][0] && this.cantidades[i][2] === true)
-      this.lista.push(this.productosS[i]);
+      if(this.productosS[i].article_id === this.cantidades[i][0] && this.cantidades[i][2] === true && this.lista[i]!=this.productosS[i])
+        {
+          this.lista.push(this.productosS[i]);
+        }
+      
     }
 
     console.log(this.lista);
@@ -227,36 +229,85 @@ export class ModalHacerPedidoPage implements OnInit {
     console.log(this.c);
     console.log(this.DatosCompany);
 
-    
-    alert('PDF Generado');
+    if(this.lista.length===1)
+    {
+      alert('PDF Generado');
 
-      this.docDefinition = {
-      content: [
-        'Pedido',
-		{
-			style: 'tableExample',
-			table: {
-				heights: 10,
-				body: [
-					[this.DatosCompany[0]['name']+"\n"+"\n"+
-          this.DatosCompany[0]['address']+"\n"+"\n"+
-          this.DatosCompany[0]['city']+"\n"+"\n"+
-          this.DatosCompany[0]['cif']+"\n"+"\n"+
-          this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
-                                          'Fecha '+this.fecha],
-					['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
-          'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
-          'Transporte:   A nuestro cargo'+"\n"+"\n"+
-          'Forma de pago: En efectivo'+"\n"+"\n"+
-          'Condiciones de entrega: ', ''],
-          [this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.cantidades[0][1]+'       '+this.lista[0]['price']],
-          ['Total                                                                   ','                                                  40 €'],
-          ['Aceptado por','']
-				]
-			}
-		},
-      ]
-    };
+        this.docDefinition = {
+        content: [
+          'Pedido',
+      {
+        style: 'tableExample',
+        table: {
+          heights: 10,
+          body: [
+            [this.DatosCompany[0]['name']+"\n"+"\n"+
+            this.DatosCompany[0]['address']+"\n"+"\n"+
+            this.DatosCompany[0]['city']+"\n"+"\n"+
+            this.DatosCompany[0]['cif']+"\n"+"\n"+
+            this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
+                                            'Fecha '+this.fecha],
+            ['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
+            'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
+            'Transporte:   A nuestro cargo'+"\n"+"\n"+
+            'Forma de pago: En efectivo'+"\n"+"\n"+
+            'Condiciones de entrega: ', ''],
+            ['ID',''],
+            [
+              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']
+            ],
+            ['Total                                                                   ','                                                  40 €'],
+            ['Aceptado por','']
+          ]
+        }
+      },
+        ]
+      };
+    }
+
+    if(this.lista.length===2)
+    {
+      alert('PDF Generado');
+
+        this.docDefinition = {
+        content: [
+          'Pedido',
+      {
+        style: 'tableExample',
+        table: {
+          heights: 10,
+          body: [
+            [this.DatosCompany[0]['name']+"\n"+"\n"+
+            this.DatosCompany[0]['address']+"\n"+"\n"+
+            this.DatosCompany[0]['city']+"\n"+"\n"+
+            this.DatosCompany[0]['cif']+"\n"+"\n"+
+            this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
+                                            'Fecha '+this.fecha],
+            ['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
+            'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
+            'Transporte:   A nuestro cargo'+"\n"+"\n"+
+            'Forma de pago: En efectivo'+"\n"+"\n"+
+            'Condiciones de entrega: ', ''],
+            ['ID',''],
+            [
+              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']
+            ],
+            [
+              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']
+            ],
+            ['Total                                                                   ','                                                  40 €'],
+            ['Aceptado por','']
+          ]
+        }
+      },
+        ]
+      };
+    }
+
+    else{
+      console.log("No");
+    }
+
     this.pdfObj = pdfMake.createPdf(this.docDefinition);
     this.pdfObj.download();
   }
