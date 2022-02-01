@@ -36,6 +36,9 @@ export class ModalHacerPedidoPage implements OnInit {
   fecha: any;
   lista: any[] = [];
   docDefinition: any;
+  user: any[] = [];
+  mail:any = "pablo00dm00@gmail.com";
+  usuarios: any=[];
   
   constructor(private modalCtrl: ModalController, private restService: RestService, private loadingCtrl: LoadingController,private alertCtrl: AlertController,
     public file: File,
@@ -45,12 +48,16 @@ export class ModalHacerPedidoPage implements OnInit {
     ) { }
 
   ngOnInit() {
+    this.encontrarEmail();
+    this.showLoading2();
+    console.log(this.usuarios);
     this.fecha = '2022-01-25';
     this.num = Math.floor(Math.random() * 100);
     console.log(this.restService.company);
     console.log(this.restService.company_id);
     this.showLoading();
     console.log(this.c);
+    console.log(this.usuarios);
 
     for(let i = 0; i<this.productos.length;i++)
     {
@@ -68,6 +75,30 @@ export class ModalHacerPedidoPage implements OnInit {
       this.llenar();
     }, 500 );
  }
+
+  async showLoading2() {
+    const loading = await this.loadingCtrl.create({
+    message: 'Loading.....'
+    });  
+    loading.present();
+    setTimeout(() => {
+      loading.dismiss();
+      this.encontrarEmail();
+    }, 500 );
+  }
+
+  async encontrarEmail() 
+  {
+    for(let i = 0; i<this.restService.usuarios.length;i++)
+    {
+      if(this.restService.usuarios['i'].company_id === this.restService.company_id)
+      {
+        this.usuarios.push(this.restService.usuarios['i']);
+        console.log("Si");
+      }
+      console.log("No");
+    }
+  }
 
  llenar()
  {
@@ -271,16 +302,15 @@ export class ModalHacerPedidoPage implements OnInit {
 
   enviarMail()
   {
-    //console.log(this.email_confirmed);
-      let mail = {
-        to: 'pablo00dm00@gmail.com',
-        attachments: [
-          'file:///data/user/0/io.ionic.starter/files/test1.pdf'
-        ],
-        subject: 'Pedido',
-        body: 'Informe del ultimo pedido',
-        isHtml: true
-      };
+    let mail = {
+      to: this.mail,
+      attachments: [
+        'file:///data/user/0/io.ionic.starter/files/test1.pdf'
+      ],
+      subject: 'Pedido',
+      body: 'Informe del ultimo pedido',
+      isHtml: true
+    };
       this.emailComposer.open(mail);
   }
 

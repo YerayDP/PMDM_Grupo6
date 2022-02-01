@@ -21,6 +21,7 @@ export class RestService {
   familias: any;
   company : any;
   listCompanies: any;
+  usuarios: any;
 
 
 
@@ -47,6 +48,7 @@ export class RestService {
           this.obtenerArticulos(this.token);
           this.obtenerDatosF();
           this.companies();
+          this.obtenerUsuarios(this.token);
         });
     });
   }
@@ -83,6 +85,7 @@ export class RestService {
         headers: new HttpHeaders().set('Authorization','Bearer '+token)
       }).subscribe(data => {
         this.token2 = data;
+        this.usuarios = data['data'];
         resolve(data);
         console.log(data);
       }, err => {
