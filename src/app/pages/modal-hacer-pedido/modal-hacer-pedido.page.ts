@@ -48,10 +48,19 @@ export class ModalHacerPedidoPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.encontrarEmail();
+    //this.encontrarEmail();
     this.showLoading2();
     console.log(this.restService.usuarios);
-    this.fecha = '2022-01-25';
+    /*for(let i = 0; i<this.restService.usuarios.length;i++)
+    {
+      if(this.restService.usuarios['i'].company_id === this.restService.company_id)
+      {
+        this.usuarios.push(this.restService.usuarios['i']);
+        console.log("Si");
+      }
+      console.log("No");
+    }*/
+    this.fecha = '2022-02-22';
     this.num = Math.floor(Math.random() * 100);
     //console.log(this.restService.company);
     console.log(this.restService.company_id);
@@ -153,7 +162,7 @@ export class ModalHacerPedidoPage implements OnInit {
  {
     for(let i=0; i<this.cantidades.length; i++)
     {
-        if(this.cantidades[i][0]===id)
+        if(this.cantidades[i][0]===id && this.cantidades[i][1]<=39)
         {
           this.cantidades[i][1]++;
           console.log(this.cantidades);
@@ -165,7 +174,7 @@ export class ModalHacerPedidoPage implements OnInit {
  {
     for(let i=0; i<this.cantidades.length; i++)
     {
-      if(this.cantidades[i][0]===id)
+      if(this.cantidades[i][0]===id && this.cantidades[i][1]>=1)
       {
         this.cantidades[i][1]--;
         console.log(this.cantidades);
@@ -215,6 +224,7 @@ export class ModalHacerPedidoPage implements OnInit {
 
   createPdf() 
   {
+    var total=0;
     this.listCompany2 = this.restService.listCompanies.data;
     console.log(this.listCompany2);
     for(let i=0; i<this.listCompany2.length; i++)
@@ -248,15 +258,15 @@ export class ModalHacerPedidoPage implements OnInit {
             this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
                                             'Fecha '+this.fecha],
             ['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
-            'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
+            'Fecha de entrega: 20/02/2022'+"\n"+"\n"+
             'Transporte:   A nuestro cargo'+"\n"+"\n"+
             'Forma de pago: En efectivo'+"\n"+"\n"+
             'Condiciones de entrega: ', ''],
-            ['Ref. Cod          Descripcion ',' Cantidad         Precio'],
+            ['ID          Descripcion ',' Cantidad         Precio          Importe'],
             [
-              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']*this.pedido[1]
+              this.lista[0]['article_id']+'            '+this.lista[0]['compamy_description'], this.pedido[1]+'     '+                this.lista[0]['price']+'       '                +this.lista[0]['price']*this.pedido[1]
             ],
-            ['Total                                                                   ','                                                  40 €'],
+            ['Total                                                                   ',+this.lista[0]['price']*this.pedido[1]],
             ['Aceptado por','']
           ]
         }
@@ -267,6 +277,7 @@ export class ModalHacerPedidoPage implements OnInit {
 
     if(this.lista.length===2)
     {
+      total = this.lista[0]['price']*this.pedido[1]+this.lista[1]['price']*this.pedido[3]
       alert('PDF Generado');
 
         this.docDefinition = {
@@ -288,14 +299,14 @@ export class ModalHacerPedidoPage implements OnInit {
             'Transporte:   A nuestro cargo'+"\n"+"\n"+
             'Forma de pago: En efectivo'+"\n"+"\n"+
             'Condiciones de entrega: ', ''],
-            ['Ref. Cod          Descripcion ',' Cantidad         Precio'],
+            ['ID          Descripcion ',' Cantidad         Precio        Importe'],
             [
-              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']*this.pedido[1]
+              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']+'       '+this.lista[0]['price']*this.pedido[1]
             ],
             [
-              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']*this.pedido[3]
+              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']+'       '+this.lista[1]['price']*this.pedido[3]
             ],
-            ['Total                                                                   ','                                                  40 €'],
+            ['Total                                                                   ',''       +                                           total+' €'],
             ['Aceptado por','']
           ]
         }
@@ -306,6 +317,7 @@ export class ModalHacerPedidoPage implements OnInit {
 
     if(this.lista.length===3)
     {
+      total = this.lista[0]['price']*this.pedido[1] + this.lista[1]['price']*this.pedido[3] + this.lista[2]['price']*this.pedido[5]
       alert('PDF Generado');
 
         this.docDefinition = {
@@ -327,17 +339,112 @@ export class ModalHacerPedidoPage implements OnInit {
             'Transporte:   A nuestro cargo'+"\n"+"\n"+
             'Forma de pago: En efectivo'+"\n"+"\n"+
             'Condiciones de entrega: ', ''],
-            ['Ref. Cod          Descripcion ',' Cantidad         Precio'],
+            ['ID          Descripcion ',' Cantidad         Precio       Importe'],
             [
-              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']*this.pedido[1]
+              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']+'       '+this.lista[0]['price']*this.pedido[1]
             ],
             [
-              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']*this.pedido[3]
+              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']+'       '+this.lista[1]['price']*this.pedido[3]
             ],
             [
-              this.lista[2]['article_id']+'       '+this.lista[2]['compamy_description'], this.pedido[5]+'       '+this.lista[2]['price']*this.pedido[5]
+              this.lista[2]['article_id']+'        '+this.lista[2]['compamy_description'], this.pedido[5]+'       '+this.lista[2]['price']+'       '+this.lista[2]['price']*this.pedido[5]
             ],
             ['Total                                                                   ','                                                  40 €'],
+            ['Aceptado por','']
+          ]
+        }
+      },
+        ]
+      };
+    }
+
+    if(this.lista.length===4)
+    {
+      total = this.lista[0]['price']*this.pedido[1] + this.lista[1]['price']*this.pedido[3] + this.lista[2]['price']*this.pedido[5] + this.lista[3]['price']*this.pedido[7]
+      alert('PDF Generado');
+
+        this.docDefinition = {
+        content: [
+          'Pedido',
+      {
+        style: 'tableExample',
+        table: {
+          heights: 10,
+          body: [
+            [this.DatosCompany[0]['name']+"\n"+"\n"+
+            this.DatosCompany[0]['address']+"\n"+"\n"+
+            this.DatosCompany[0]['city']+"\n"+"\n"+
+            this.DatosCompany[0]['cif']+"\n"+"\n"+
+            this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
+                                            'Fecha '+this.fecha],
+            ['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
+            'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
+            'Transporte:   A nuestro cargo'+"\n"+"\n"+
+            'Forma de pago: En efectivo'+"\n"+"\n"+
+            'Condiciones de entrega: ', ''],
+            ['ID          Descripcion ',' Cantidad         Precio        Importe'],
+            [
+              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']+'       '+this.lista[0]['price']*this.pedido[1]
+            ],
+            [
+              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']+'       '+this.lista[1]['price']*this.pedido[3]
+            ],
+            [
+              this.lista[2]['article_id']+'        '+this.lista[2]['compamy_description'], this.pedido[5]+'       '+this.lista[2]['price']+'       '+this.lista[2]['price']*this.pedido[5]
+            ],
+            [
+              this.lista[3]['article_id']+'        '+this.lista[3]['compamy_description'], this.pedido[7]+'       '+this.lista[3]['price']+'       '+this.lista[3]['price']*this.pedido[7]
+            ],
+            ['Total                                                                   ','                                                  '+total+' €'],
+            ['Aceptado por','']
+          ]
+        }
+      },
+        ]
+      };
+    }
+
+    if(this.lista.length===5)
+    {
+      total = this.lista[0]['price']*this.pedido[1] + this.lista[1]['price']*this.pedido[3] + this.lista[2]['price']*this.pedido[5] + this.lista[3]['price']*this.pedido[7] + this.lista[4]['price']*this.pedido[9]
+      alert('PDF Generado');
+
+        this.docDefinition = {
+        content: [
+          'Pedido',
+      {
+        style: 'tableExample',
+        table: {
+          heights: 10,
+          body: [
+            [this.DatosCompany[0]['name']+"\n"+"\n"+
+            this.DatosCompany[0]['address']+"\n"+"\n"+
+            this.DatosCompany[0]['city']+"\n"+"\n"+
+            this.DatosCompany[0]['cif']+"\n"+"\n"+
+            this.DatosCompany[0]['email'], 'Pedido Nº '+this.num+"\n"+"\n"+"\n"+"\n"+
+                                            'Fecha '+this.fecha],
+            ['Direccion de envío: C/ Teran n8 2D'+"\n"+"\n"+
+            'Fecha de entrega: 08/01/2022'+"\n"+"\n"+
+            'Transporte:   A nuestro cargo'+"\n"+"\n"+
+            'Forma de pago: En efectivo'+"\n"+"\n"+
+            'Condiciones de entrega: ', ''],
+            ['ID          Descripcion ',' Cantidad         Precio         Importe'],
+            [
+              this.lista[0]['article_id']+'       '+this.lista[0]['compamy_description'], this.pedido[1]+'       '+this.lista[0]['price']+'       '+this.lista[0]['price']*this.pedido[1]
+            ],
+            [
+              this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']+'       '+this.lista[1]['price']*this.pedido[3]
+            ],
+            [
+              this.lista[2]['article_id']+'       '+this.lista[2]['compamy_description'], this.pedido[5]+'       '+this.lista[2]['price']+'       '+this.lista[2]['price']*this.pedido[5]
+            ],
+            [
+              this.lista[3]['article_id']+'       '+this.lista[3]['compamy_description'], this.pedido[7]+'       '+this.lista[3]['price']+'       '+this.lista[3]['price']*this.pedido[7]
+            ],
+            [
+              this.lista[4]['article_id']+'       '+this.lista[4]['compamy_description'], this.pedido[9]+'       '+this.lista[4]['price']+'       '+this.lista[4]['price']*this.pedido[9]
+            ],
+            ['Total                                                                   ','                                                  '+total+' €'],
             ['Aceptado por','']
           ]
         }
