@@ -51,15 +51,7 @@ export class ModalHacerPedidoPage implements OnInit {
     //this.encontrarEmail();
     this.showLoading2();
     console.log(this.restService.usuarios);
-    /*for(let i = 0; i<this.restService.usuarios.length;i++)
-    {
-      if(this.restService.usuarios['i'].company_id === this.restService.company_id)
-      {
-        this.usuarios.push(this.restService.usuarios['i']);
-        console.log("Si");
-      }
-      console.log("No");
-    }*/
+    
     this.fecha = '2022-02-22';
     this.num = Math.floor(Math.random() * 100);
     //console.log(this.restService.company);
@@ -97,15 +89,19 @@ export class ModalHacerPedidoPage implements OnInit {
 
   async encontrarEmail()
   {
+    console.log("Jajan`t");
+    console.log(this.restService.usuarios);
     for(let i = 0; i<this.restService.usuarios.length;i++)
     {
-      if(this.restService.usuarios['i'].company_id === this.restService.company_id)
+      console.log("No");
+      if(this.restService.usuarios[i].company_id === this.restService.company_id && this.restService.usuarios[i].iscontact === 1)
       {
-        this.usuarios.push(this.restService.usuarios['i']);
+        this.usuarios.push(this.restService.usuarios[i]);
         console.log("Si");
       }
       console.log("No");
     }
+    console.log(this.usuarios);
   }
 
  llenar()
@@ -307,7 +303,7 @@ export class ModalHacerPedidoPage implements OnInit {
               this.lista[1]['article_id']+'       '+this.lista[1]['compamy_description'], this.pedido[3]+'       '+this.lista[1]['price']+'       '+this.lista[1]['price']*this.pedido[3]
             ],
             ['Total                                                                   ',''       +                                           total+' €'],
-            ['Aceptado por','']
+            ['Aceptado por',this.DatosCompany[0]['name']]
           ]
         }
       },
