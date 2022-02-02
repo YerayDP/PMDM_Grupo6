@@ -93,13 +93,11 @@ export class ModalHacerPedidoPage implements OnInit {
     console.log(this.restService.usuarios);
     for(let i = 0; i<this.restService.usuarios.length;i++)
     {
-      console.log("No");
       if(this.restService.usuarios[i].company_id === this.restService.company_id && this.restService.usuarios[i].iscontact === 1)
       {
         this.usuarios.push(this.restService.usuarios[i]);
-        console.log("Si");
+        console.log(this.usuarios[0].email);
       }
-      console.log("No");
     }
     console.log(this.usuarios);
   }
@@ -263,7 +261,7 @@ export class ModalHacerPedidoPage implements OnInit {
               this.lista[0]['article_id']+'            '+this.lista[0]['compamy_description'], this.pedido[1]+'     '+                this.lista[0]['price']+'       '                +this.lista[0]['price']*this.pedido[1]
             ],
             ['Total                                                                   ',+this.lista[0]['price']*this.pedido[1]],
-            ['Aceptado por','']
+            ['Aceptado por',this.DatosCompany[0]['name']]
           ]
         }
       },
@@ -346,7 +344,7 @@ export class ModalHacerPedidoPage implements OnInit {
               this.lista[2]['article_id']+'        '+this.lista[2]['compamy_description'], this.pedido[5]+'       '+this.lista[2]['price']+'       '+this.lista[2]['price']*this.pedido[5]
             ],
             ['Total                                                                   ','                                                  40 €'],
-            ['Aceptado por','']
+            ['Aceptado por',this.DatosCompany[0]['name']]
           ]
         }
       },
@@ -392,7 +390,7 @@ export class ModalHacerPedidoPage implements OnInit {
               this.lista[3]['article_id']+'        '+this.lista[3]['compamy_description'], this.pedido[7]+'       '+this.lista[3]['price']+'       '+this.lista[3]['price']*this.pedido[7]
             ],
             ['Total                                                                   ','                                                  '+total+' €'],
-            ['Aceptado por','']
+            ['Aceptado por',this.DatosCompany[0]['name']]
           ]
         }
       },
@@ -441,7 +439,7 @@ export class ModalHacerPedidoPage implements OnInit {
               this.lista[4]['article_id']+'       '+this.lista[4]['compamy_description'], this.pedido[9]+'       '+this.lista[4]['price']+'       '+this.lista[4]['price']*this.pedido[9]
             ],
             ['Total                                                                   ','                                                  '+total+' €'],
-            ['Aceptado por','']
+            ['Aceptado por',this.DatosCompany[0]['name']]
           ]
         }
       },
@@ -499,7 +497,7 @@ export class ModalHacerPedidoPage implements OnInit {
   enviarMail()
   {
     let mail = {
-      to: this.mail,
+      to: this.usuarios[0].email,
       attachments: [
         'file:///data/user/0/io.ionic.starter/files/test1.pdf'
       ],
