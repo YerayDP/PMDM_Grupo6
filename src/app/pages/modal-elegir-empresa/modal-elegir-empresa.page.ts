@@ -31,7 +31,6 @@ export class ModalElegirEmpresaPage implements OnInit {
     }
 
     this.obtenerProductos();
-    this.showLoading();
     console.log(this.empresas);
     console.log(this.empresasF);
   }
@@ -66,6 +65,7 @@ export class ModalElegirEmpresaPage implements OnInit {
         console.log(this.Susproductos);
         
     });
+    this.showLoading();
   }
 
   f()
