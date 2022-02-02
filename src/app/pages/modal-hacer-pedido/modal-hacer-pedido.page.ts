@@ -32,7 +32,7 @@ export class ModalHacerPedidoPage implements OnInit {
   pdfObj: any;
   DatosCompany: any[] = [];
   listCompany2: any[] = [];
-  num:any;
+  num:number;
   fecha: any;
   lista: any[] = [];
   docDefinition: any;
@@ -116,16 +116,9 @@ export class ModalHacerPedidoPage implements OnInit {
  selectProductos(articulo, idArticulo,productoSeleccion,indice) {
 
   if (articulo.target.checked === true) {
-    console.log(productoSeleccion);
     this.seleccionado=articulo.detail.checked;
-    console.log(this.seleccionado);
-    console.log(indice);
     this.idArticulo=idArticulo;
-    console.log(this.idArticulo);
-    this.cantidades[indice][2]=this.seleccionado;// aquí está la clave de todo el asunto
-    console.log('Artículo seleccionado: '+articulo.detail.value);
-    console.log('Id del artículo deseleccionado: '+idArticulo);
-    console.log('Select: '+this.cantidades[indice][2]);// para imprimir el select de la condición
+    this.cantidades[indice][2]=this.seleccionado;
     for (let i = 0; i < this.cantidades?.length; i++){
       if(this.cantidades[i][2]==true){
         this.seleccionado=true;
@@ -133,16 +126,10 @@ export class ModalHacerPedidoPage implements OnInit {
     }      
   }
   else {
-    console.log(productoSeleccion);
     this.seleccionado=articulo.detail.checked;
-    console.log(this.seleccionado);
-    console.log(indice);
     this.cantidades[indice][2]=this.seleccionado;
     this.idArticulo=idArticulo;
     this.seleccionado = articulo.detail.checked;
-    console.log('Artículo deseleccionado: '+articulo.detail.value);
-    console.log('Id del artículo seleccionado: '+idArticulo);
-    console.log('Select: '+this.cantidades[indice][2]);
     for (let i = 0; i < this.cantidades?.length; i++){
       if(this.cantidades[i][2]==true){
         this.seleccionado=true;
